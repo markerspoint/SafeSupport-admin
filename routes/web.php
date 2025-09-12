@@ -1,7 +1,5 @@
 <?php
 
-use App\Http\Controllers\Counselor\CounselorAppointment;
-use App\Http\Controllers\Counselor\CounselorAppointmentController;
 use Illuminate\Support\Facades\Route;
 
 // Auth
@@ -14,6 +12,7 @@ use App\Http\Controllers\Auth\RegisterController;
 use App\Http\Controllers\Counselor\CounselorDashboardController;
 use App\Http\Controllers\Counselor\CounselorProfileController;
 use App\Http\Controllers\Counselor\CounselorScheduleController;
+use App\Http\Controllers\Counselor\CounselorAppointmentController;
 
 // student
 use App\Http\Controllers\Student\StudentAppointmentController;

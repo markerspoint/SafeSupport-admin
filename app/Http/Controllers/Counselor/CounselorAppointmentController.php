@@ -32,6 +32,10 @@ class CounselorAppointmentController extends Controller
         $appointment->notes = $request->notes;
         $appointment->save();
 
+        if ($request->ajax()) {
+            return response()->json(['success' => true, 'appointment' => $appointment]);
+        }
+
         return redirect()->back()->with('success', 'Appointment updated successfully!');
     }
 

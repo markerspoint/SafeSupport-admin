@@ -17,7 +17,6 @@
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
-
 </style>
 
 @section('body')
@@ -120,5 +119,4 @@
         </div>
     </div>
 </section>
-
 @endsection

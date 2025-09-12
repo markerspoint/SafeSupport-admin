@@ -18,9 +18,11 @@
         cursor: pointer;
     }
 
-    th, td {
+    th,
+    td {
         color: #676a6c;
     }
+
 </style>
 
 @section('body')
@@ -117,7 +119,7 @@
                 <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
             </div>
 
-            <form method="POST" action="{{ route('counselor.appointments.update') }}">
+            <form id="appointmentForm">
                 @csrf
                 <input type="hidden" name="id" id="modal-appointment-id">
 
@@ -133,8 +135,8 @@
 
                     <div class="form-group">
                         <label>Status</label><br>
-                        <button type="submit" name="status" value="accepted" class="btn btn-primary">Accept</button>
-                        <button type="submit" name="status" value="rejected" class="btn btn-danger">Reject</button>
+                        <button type="button" class="btn btn-primary" data-status="accepted">Accept</button>
+                        <button type="button" class="btn btn-danger" data-status="rejected">Reject</button>
                     </div>
                 </div>
             </form>
@@ -151,7 +153,7 @@
     $(document).ready(function() {
         // Initialize DataTable only once
         var table = $('.dataTables-example').DataTable({
-            pageLength: 25
+            pageLength: 10
             , responsive: true
             , dom: '<"html5buttons"B>lTfgitp'
             , buttons: [{
@@ -204,6 +206,52 @@
                 row.child('<div style="padding:10px; color:#676a6c;"><strong>Notes:</strong><br>' + fullNote + '</div>').show();
                 tr.addClass('shown');
             }
+        });
+    });
+
+
+
+    // ajax
+    $(document).ready(function() {
+        $('#appointmentForm button').click(function() {
+            var status = $(this).data('status');
+            var id = $('#modal-appointment-id').val();
+            var notes = $('#modal-notes').val();
+            var token = $('input[name="_token"]').val();
+
+            $.ajax({
+                url: '{{ route("counselor.appointments.update") }}'
+                , type: 'POST'
+                , data: {
+                    _token: token
+                    , id: id
+                    , status: status
+                    , notes: notes
+                }
+                , success: function(response) {
+
+                    var row = $('span[data-id="' + id + '"]').closest('tr');
+
+                    row.find('td:nth-child(5) span') 
+                        .text(status.charAt(0).toUpperCase() + status.slice(1))
+                        .removeClass('badge-primary badge-danger badge-warning')
+                        .addClass(
+                            status == 'accepted' ? 'badge-primary' :
+                            status == 'rejected' ? 'badge-danger' :
+                            'badge-warning'
+                        );
+
+                    row.find('td:nth-child(6) span').text(notes.length > 20 ? notes.substring(0, 20) + '...' : notes);
+
+                    $('#appointmentModal').modal('hide');
+
+                    toastr.success('Appointment updated successfully!');
+                }
+                , error: function(xhr) {
+                    toastr.error('Something went wrong.');
+                    console.log(xhr.responseText);
+                }
+            });
         });
     });
 
