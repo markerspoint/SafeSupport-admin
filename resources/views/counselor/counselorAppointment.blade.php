@@ -27,7 +27,7 @@
 
 @section('body')
 
-<section>
+<section class="animated fadeInDown">
 
     <div class="m-b-md">
         <div class="border-bottom white-bg page-heading" id="appointmentHead">
