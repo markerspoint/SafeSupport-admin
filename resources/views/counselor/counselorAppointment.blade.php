@@ -210,7 +210,6 @@
     });
 
 
-
     // ajax
     $(document).ready(function() {
         $('#appointmentForm button').click(function() {
@@ -232,7 +231,7 @@
 
                     var row = $('span[data-id="' + id + '"]').closest('tr');
 
-                    row.find('td:nth-child(5) span') 
+                    row.find('td:nth-child(5) span')
                         .text(status.charAt(0).toUpperCase() + status.slice(1))
                         .removeClass('badge-primary badge-danger badge-warning')
                         .addClass(

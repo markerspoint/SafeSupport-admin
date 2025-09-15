@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ResourceController;
 
 // Auth
 use App\Http\Controllers\Auth\AdminLoginController;
@@ -50,6 +51,17 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/student/appointments', [StudentAppointmentController::class, 'store'])->name('student.appointments.store');
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
 });
+
+
+Route::middleware(['auth', 'role:counselor'])->prefix('counselor')->name('counselor.')->group(function () {
+    Route::get('resources', [ResourceController::class, 'index'])->name('resources.index');
+    Route::get('resources/create', [ResourceController::class, 'create'])->name('resources.create');
+    Route::post('resources', [ResourceController::class, 'store'])->name('resources.store');
+    Route::get('resources/edit/{id}', [ResourceController::class, 'edit'])->name('resources.edit');
+    Route::put('resources/{id}', [ResourceController::class, 'update'])->name('resources.update');
+    Route::delete('resources/{id}', [ResourceController::class, 'destroy'])->name('resources.destroy');
+});
+
 
 
 // Normal user login (students & counselors share this)

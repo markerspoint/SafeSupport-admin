@@ -8,8 +8,7 @@
 
     <link rel="icon" type="image/png" href="{{ asset('template/img/safecenter-logo.png') }}">
 
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
 
     <title>Counselor | Dashboard</title>
 
@@ -18,7 +17,7 @@
     <link href="{{asset('template/font-awesome/css/font-awesome.css')}}" rel="stylesheet">
     <link href="{{asset('template/css/animate.css')}}" rel="stylesheet">
     <link href="{{asset('template/css/style.css')}}" rel="stylesheet">
-    
+
     {{-- data tables --}}
     <link href="{{ asset('template/css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
 
@@ -43,11 +42,11 @@
     body {
         font-family: 'Poppins', sans-serif !important;
     }
+
 </style>
 
 <body>
     <div id="wrapper">
-
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
@@ -55,8 +54,7 @@
                         <div class="dropdown profile-element">
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="block m-t-xs font-bold d-flex align-items-center">
-                                    <img src="{{ asset('template/img/profile_default.jpg') }}" alt="Default_Profile"
-                                        style="width:40px; height:40px; border-radius:50%; object-fit:cover; margin-right:8px;">
+                                    <img src="{{ asset('template/img/profile_default.jpg') }}" alt="Default_Profile" style="width:40px; height:40px; border-radius:50%; object-fit:cover; margin-right:8px;">
                                     {{ Auth::user()->name }}
                                 </span>
                                 <span class="text-muted text-xs block">menu <b class="caret"></b></span>
@@ -67,8 +65,7 @@
                             </ul>
                         </div>
                         <div class="logo-element">
-                            <img src="{{ asset('template/img/safecenter-logo.png') }}" alt="SafeCenter Logo"
-                                style="max-height:40px;">
+                            <img src="{{ asset('template/img/safecenter-logo.png') }}" alt="SafeCenter Logo" style="max-height:40px;">
                         </div>
                     </li>
                     <li class="{{ request()->routeIs('counselor.dashboard') ? 'active' : '' }}">
@@ -91,6 +88,14 @@
                             <span class="nav-label">Schedule</span>
                         </a>
                     </li>
+
+                    <li class="{{ request()->routeIs('counselor.resources.*') ? 'active' : '' }}">
+                        <a href="{{ route('counselor.resources.index') }}">
+                            <i class="fa fa-book"></i>
+                            <span class="nav-label">Resources</span>
+                        </a>
+                    </li>
+
                 </ul>
             </div>
         </nav>
@@ -99,12 +104,10 @@
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
                     <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i
-                                class="fa fa-bars"></i> </a>
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
                         <form role="search" class="navbar-form-custom" method="post" action="#">
                             <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control"
-                                    name="top-search" id="top-search">
+                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
                             </div>
                         </form>
                     </div>
@@ -192,19 +195,20 @@
     <script>
         @if(session('success'))
         toastr.success("{{ session('success') }}", "Success");
-    @endif
+        @endif
 
-    @if(session('error'))
+        @if(session('error'))
         toastr.error("{{ session('error') }}", "Error");
-    @endif
+        @endif
 
-    @if(session('info'))
+        @if(session('info'))
         toastr.info("{{ session('info') }}", "Info");
-    @endif
+        @endif
 
-    @if(session('warning'))
+        @if(session('warning'))
         toastr.warning("{{ session('warning') }}", "Warning");
-    @endif
+        @endif
+
     </script>
 
     @yield('scripts')
