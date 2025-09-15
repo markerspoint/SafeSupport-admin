@@ -103,24 +103,27 @@
         <div id="page-wrapper" style="background-color: #edf0f5 !important;">
             <div class="row border-bottom">
                 <nav class="navbar navbar-static-top white-bg" role="navigation" style="margin-bottom: 0">
-                    <div class="navbar-header">
-                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary " href="#"><i class="fa fa-bars"></i> </a>
-                        <form role="search" class="navbar-form-custom" method="post" action="#">
-                            <div class="form-group">
-                                <input type="text" placeholder="Search for something..." class="form-control" name="top-search" id="top-search">
-                            </div>
-                        </form>
+                    <div class="navbar-header d-flex align-items-center">
+                        <a class="navbar-minimalize minimalize-styl-2 btn btn-primary" style="margin-top: 2px;" href="#">
+                            <i class="fa fa-bars"></i>
+                        </a>
+                        <a href="{{ route('counselor.dashboard') }}" class="navbar-brand d-flex align-items-center ml-3" style="font-weight: bold; color: #1ab394;">
+                            SafeSupp
+                            <img src="{{ asset('template/img/safecenter-logo.png') }}" alt="O" style="height: 24px; margin: 0 4px;">
+                            rt
+                        </a>
                     </div>
                     <ul class="nav navbar-top-links navbar-right">
                         <li>
-                            <a href="{{ route('login') }}">
-                                <i class="fa fa-sign-out"></i> Log out
+                            <a href="{{ route('login') }}" class="logout-link">
+                                <i class="fa fa-sign-out"></i>Logout 
                             </a>
                         </li>
                     </ul>
-
                 </nav>
             </div>
+
+
 
             {{-- body --}}
             <div class="wrapper wrapper-content">

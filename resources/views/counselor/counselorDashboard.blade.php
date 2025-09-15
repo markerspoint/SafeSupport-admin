@@ -39,7 +39,7 @@
 
 @section('body')
 
-<section class="content-header">
+<section class="content-header animated fadeInDown">
     <div class="row">
         <div class="col-lg-9 ">
             <div class="ibox">

@@ -39,7 +39,7 @@
 </style>
 
 @section('body')
-<section>
+<section class="animated fadeInDown">
 
     <div class="m-b-md">
         <div class="border-bottom white-bg page-heading" id="schedHead">
@@ -58,7 +58,7 @@
     </div>
 
 
-    <div class="row animated fadeInDown">
+    <div class="row">
         <div class="col-lg-3">
             <div class="ibox ">
                 <div class="ibox-title">
