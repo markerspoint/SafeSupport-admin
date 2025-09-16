@@ -68,13 +68,13 @@
     }
 
     .resource-card {
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-        border: 1px solid transparent;
+        border: 1px solid #ccd3df;
         transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
         border-radius: 8px;
     }
 
     .resource-card:hover {
+        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
         transform: scale(1.02);
         border-color: #1ab394;
     }
