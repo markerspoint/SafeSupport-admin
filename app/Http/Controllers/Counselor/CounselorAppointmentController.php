@@ -19,7 +19,7 @@ class CounselorAppointmentController extends Controller
 
         $appointments = Appointment::with(['student'])
             ->where('counselor_id', auth()->id())
-            ->orderBy('appointment_time', 'desc')
+            ->orderBy('created_at', 'desc')
             ->get();
 
         return view('counselor.counselorAppointment', compact('appointments'));
