@@ -48,6 +48,8 @@
 
 </style>
 
+@yield('style')
+
 <body>
     <div id="wrapper">
 
@@ -72,19 +74,19 @@
                             <img src="{{ asset('template/img/safecenter-logo.png') }}" alt="SafeCenter Logo" style="max-height:40px;">
                         </div>
                     </li>
-                    <li class="{{ request()->routeIs('student.appointment') ? 'active' : '' }}">
+                    {{-- <li class="{{ request()->routeIs('student.appointment') ? 'active' : '' }}">
                         <a href="{{ route('student.appointment') }}">
                             <i class="fa fa-suitcase"></i>
                             <span class="nav-label">Appointments</span>
                         </a>
-                    </li>
-
-                    {{-- <li class="{{ request()->routeIs('counselor.schedule') ? 'active' : '' }}">
-                    <a href="">
-                        <i class="fa fa-calendar"></i>
-                        <span class="nav-label">Schedule</span>
-                    </a>
                     </li> --}}
+
+                    <li class="{{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
+                    <a href="{{ route('student.dashboard') }}">
+                        <i class="fa fa-calendar"></i>
+                        <span class="nav-label">Dashboard</span>
+                    </a>
+                    </li>
                 </ul>
             </div>
         </nav>

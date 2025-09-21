@@ -1,6 +1,27 @@
 @extends('layouts.counselor-master')
 
 <style>
+    body,
+    h1,
+    h2,
+    h3,
+    h4,
+    h5,
+    h6,
+    p,
+    a,
+    li {
+        font-family: 'Poppins', sans-serif;
+    }
+
+    h2 {
+        font-weight: 600;
+    }
+
+    p {
+        font-weight: 400;
+    }
+
     #resourcesHead {
         overflow: hidden;
         transition: box-shadow 0.3s ease, transform 0.3s ease;

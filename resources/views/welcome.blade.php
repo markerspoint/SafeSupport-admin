@@ -7,19 +7,20 @@
     <link rel="icon" type="image/png" href="{{ asset('template/img/safecenter-logo.png') }}">
 
     <!-- SEO Meta Tags -->
-    <meta name="description" content="Tivo is a HTML landing page template built with Bootstrap to help you crate engaging presentations for SaaS apps and convert visitors into users.">
-    <meta name="author" content="Inovatik">
+    <meta name="description" content="SafeSupport is a student-focused counseling platform developed at CPSU to provide compassionate, accessible, and stigma-free mental health support." />
+    <meta name="author" content="Mark Ian Dela Cruz" />
 
-    <!-- OG Meta Tags to improve the way the post looks when you share the page on LinkedIn, Facebook, Google+ -->
-    <meta property="og:site_name" content="" /> <!-- website name -->
-    <meta property="og:site" content="" /> <!-- website link -->
-    <meta property="og:title" content="" /> <!-- title shown in the actual shared post -->
-    <meta property="og:description" content="" /> <!-- description shown in the actual shared post -->
-    <meta property="og:image" content="" /> <!-- image link, make sure it's jpg -->
-    <meta property="og:url" content="" /> <!-- where do you want your post to link to -->
-    <meta property="og:type" content="article" />
 
-    <!-- Website Title -->
+    <meta property="og:site_name" content="SafeSupport" />
+    <meta property="og:site" content="" />
+    <meta property="og:title" content="SafeSupport – Listen. Heal. Grow. Live." />
+    <meta property="og:description" content="SafeSupport is a student-focused counseling platform developed at CPSU to provide compassionate, accessible, and stigma-free mental health support." />
+    <meta property="og:image" content="" />
+    <meta property="og:url" content="" />
+    <meta property="og:type" content="website" />
+    <meta name="author" content="Mark Ian Dela Cruz" />
+
+
     <title>SafeSupport</title>
 
     <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
@@ -34,9 +35,24 @@
 
 
 </head>
+
+<style>
+    .fade-section {
+        opacity: 0;
+        transform: translateY(20px);
+        transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+    }
+
+    .fade-section.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+</style>
+
 <body data-spy="scroll" data-target=".fixed-top">
 
-    <!-- Preloader -->
+
     <div class="spinner-wrapper">
         <div class="spinner">
             <div class="bounce1"></div>
@@ -44,15 +60,10 @@
             <div class="bounce3"></div>
         </div>
     </div>
-    <!-- end of preloader -->
-
 
     <!-- Navigation -->
     <nav class="navbar navbar-expand-lg navbar-dark navbar-custom fixed-top">
         <div class="container">
-
-
-            <!-- Image Logo -->
             <a href="{{ route('counselor.dashboard') }}" class="navbar-brand d-flex align-items-center ml-3" style="font-weight: 700; color: #ffffff; text-decoration: none;" onmouseover="this.style.color='#e1eaf7'" onmouseout="this.style.color='#fff'">
                 SafeSupp
                 <img src="{{ asset('template/img/safecenter-logo.png') }}" alt="O" style="height: 24px; margin: 0 4px;">
@@ -73,7 +84,7 @@
                         <a class="nav-link page-scroll" href="#features">FEATURES</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#details">DETAILS</a>
+                        <a class="nav-link page-scroll" href="#mission">MISSION</a>
                     </li>
 
                     <li class="nav-item dropdown">
@@ -87,9 +98,8 @@
                         </div>
                     </li>
 
-
                     <li class="nav-item">
-                        <a class="nav-link page-scroll" href="#pricing">PRICING</a>
+                        <a class="nav-link page-scroll" href="#team">TEAM</a>
                     </li>
                 </ul>
                 <span class="nav-item">
@@ -102,7 +112,6 @@
 
     <!-- Header -->
     <header id="header" class="header">
-        <!-- Circles Background -->
         <ul class="circles">
             <li></li>
             <li></li>
@@ -116,7 +125,7 @@
             <li></li>
         </ul>
 
-        <div class="header-content d-flex align-items-center justify-content-center text-center" style="height: 100vh; position: relative; z-index: 2;">
+        <div class="header-content d-flex align-items-center justify-content-center text-center fade-section" style="height: 100vh; position: relative; z-index: 2;">
             <div class="text-container">
                 <h1 style="font-size: clamp(2rem, 5vw, 4rem); font-weight: 800; color: #fff; margin-top: -4rem;">
                     Listen. Heal. Grow. <span style="color: #ffd400;">Live.</span>
@@ -146,7 +155,7 @@
     </svg>
 
     <!-- Customers -->
-    <div class="slider-1">
+    <div class="slider-1 fade-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -156,22 +165,22 @@
                         <div class="swiper-container image-slider">
                             <div class="swiper-wrapper">
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" src="{{asset('landing/images/customer-logo-1.png')}}" alt="alternative">
+                                    <img class="img-fluid" src="{{asset('landing/images/cl1.png')}}" alt="alternative">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" src="{{asset('landing/images/customer-logo-2.png')}}" alt="alternative">
+                                    <img class="img-fluid" src="{{asset('landing/images/cl2.png')}}" alt="alternative">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" src="{{asset('landing/images/customer-logo-3.png')}}" alt="alternative">
+                                    <img class="img-fluid" src="{{asset('landing/images/cl3.png')}}" alt="alternative">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" src="{{asset('landing/images/customer-logo-4.png')}}" alt="alternative">
+                                    <img class="img-fluid" src="{{asset('landing/images/cl1.png')}}" alt="alternative">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" src="{{asset('landing/images/customer-logo-5.png')}}" alt="alternative">
+                                    <img class="img-fluid" src="{{asset('landing/images/cl2.png')}}" alt="alternative">
                                 </div>
                                 <div class="swiper-slide">
-                                    <img class="img-fluid" src="{{asset('landing/images/customer-logo-6.png')}}" alt="alternative">
+                                    <img class="img-fluid" src="{{asset('landing/images/cl3.png')}}" alt="alternative">
                                 </div>
                             </div> <!-- end of swiper-wrapper -->
                         </div> <!-- end of swiper container -->
@@ -184,7 +193,7 @@
     </div>
 
     <!-- Description -->
-    <div class="cards-1">
+    <div class="cards-1 fade-section" id="features">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -229,12 +238,12 @@
     </div>
 
     <!-- Mission -->
-    <section id="mission" style="padding-top: 4rem; padding-bottom: 4rem; text-align: center;">
+    <section class="fade-section" id="mission" style="padding-top: 4rem; padding-bottom: 4rem; text-align: center;">
         <div class="container" style="max-width: 90vw; margin: 0 auto;">
             <div class="row">
                 <div class="col-lg-12">
-                    <div class="above-heading" style="font-size: 1rem; letter-spacing: 0.05em;">OUR MISSION</div>
-                    <h2 style="font-size: clamp(1.75rem, 4vw, 2.5rem); margin-bottom: 2rem;">Why We Created SafeSupport</h2>
+                    <div class="above-heading" style="font-size: 2rem; letter-spacing: 0.05rem; margin-bottom: 2rem !important; display: inline-block;">OUR MISSION</div>
+                    <h2 style="font-size: clamp(1.75rem, 4vw, 2.3rem); margin-bottom: 2rem;">Why We Created SafeSupport</h2>
                     <p style="max-width: 45rem; margin: 0 auto; font-size: clamp(1rem, 2.5vw, 1.25rem); line-height: 1.75rem;">
                         At Central Philippine State University (CPSU), we noticed a growing concern for students’ mental health.
                         Many students struggle with stress, anxiety, and feelings of isolation—issues that, if left unaddressed, can escalate into serious consequences, including thoughts of self-harm.
@@ -249,7 +258,7 @@
     </section>
 
     <!-- Our Team -->
-    <div class="container text-center my-5">
+    <div class="container text-center my-5 fade-section" id="team">
         <h2 class="mb-5 fw-bold" style="color: #4a4a4a;">Our Team</h2>
 
         <div class="row justify-content-center g-4">
@@ -287,7 +296,7 @@
 
 
     <!-- Video -->
-    <div id="video" class="basic-2">
+    <div id="video" class="basic-2 fade-section">
         <div class="container">
             <div class="row">
                 <div class="col-lg-12">
@@ -345,20 +354,20 @@
                             <li class="media">
                                 <i class="fas fa-square"></i>
                                 <div class="media-body">
-                                    <a class="white" href="{{ route('register') }}">Get Started</a>
+                                    <a class="white" style="text-decoration: none;" href="{{ route('register') }}">Get Started</a>
                                 </div>
                             </li>
                             <li class="media">
                                 <i class="fas fa-square"></i>
                                 <div class="media-body">
-                                    <a class="white" href="{{ route('login') }}">Login</a>
+                                    <a class="white" style="text-decoration: none;" href="{{ route('login') }}">Login</a>
                                 </div>
                             </li>
                             <li class="media">
                                 <i class="fas fa-square"></i>
                                 <div class="media-body">
-                                    <a class="white" href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp;
-                                    <a class="white" href="terms-conditions.html">Terms & Conditions</a>
+                                    <a class="white" style="text-decoration: none;" href="privacy-policy.html">Privacy Policy</a> &nbsp;|&nbsp;
+                                    <a class="white" style="text-decoration: none;" href="terms-conditions.html">Terms & Conditions</a>
                                 </div>
                             </li>
                         </ul>
@@ -389,8 +398,6 @@
     </div>
 
 
-
-
     <!-- Copyright -->
     <div class="copyright">
         <div class="container">
@@ -407,15 +414,43 @@
 
 
     <!-- Scripts -->
-    <script src="{{asset('landing/js/jquery.min.js')}}"></script> <!-- jQuery for Bootstrap's JavaScript plugins -->
-    <script src="{{asset('landing/js/popper.min.js')}}"></script> <!-- Popper tooltip library for Bootstrap -->
-    <script src="{{asset('landing/js/bootstrap.min.js')}}"></script> <!-- Bootstrap framework -->
-    <script src="{{asset('landing/js/jquery.easing.min.js')}}"></script> <!-- jQuery Easing for smooth scrolling between anchors -->
-    <script src="{{asset('landing/js/swiper.min.js')}}"></script> <!-- Swiper for image and text sliders -->
-    <script src="{{asset('landing/js/jquery.magnific-popup.js')}}"></script> <!-- Magnific Popup for lightboxes -->
-    <script src="{{asset('landing/js/validator.min.js')}}"></script> <!-- Validator.js - Bootstrap plugin that validates forms -->
-    <script src="{{asset('landing/js/scripts.js')}}"></script> <!-- Custom scripts -->
+    <script src="{{asset('landing/js/jquery.min.js')}}"></script>
+    <script src="{{asset('landing/js/popper.min.js')}}"></script>
+    <script src="{{asset('landing/js/bootstrap.min.js')}}"></script>
+    <script src="{{asset('landing/js/jquery.easing.min.js')}}"></script>
+    <script src="{{asset('landing/js/swiper.min.js')}}"></script>
+    <script src="{{asset('landing/js/jquery.magnific-popup.js')}}"></script>
+    <script src="{{asset('landing/js/validator.min.js')}}"></script>
+    <script src="{{asset('landing/js/scripts.js')}}"></script>
 
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            const faders = document.querySelectorAll(".fade-section");
 
+            const appearOptions = {
+                threshold: 0.3
+                , rootMargin: "0px 0px -50px 0px"
+            , };
+
+            const appearOnScroll = new IntersectionObserver(function(
+                    entries
+                    , observer
+                ) {
+                    entries.forEach((entry) => {
+                        if (!entry.isIntersecting) {
+                            entry.target.classList.remove("show"); // remove to allow fade-out
+                            return;
+                        }
+                        entry.target.classList.add("show");
+                    });
+                }
+                , appearOptions);
+
+            faders.forEach((fader) => {
+                appearOnScroll.observe(fader);
+            });
+        });
+
+    </script>
 </body>
 </html>

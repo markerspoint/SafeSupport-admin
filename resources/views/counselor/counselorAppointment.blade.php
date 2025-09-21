@@ -153,10 +153,11 @@
     $(document).ready(function() {
         // Initialize DataTable only once
         var table = $('.dataTables-example').DataTable({
-            pageLength: 10
-            , responsive: true
-            , dom: '<"html5buttons"B>lTfgitp'
-            , buttons: [{
+            order: [],
+            pageLength: 10, 
+            responsive: true, 
+            dom: '<"html5buttons"B>lTfgitp', 
+            buttons: [{
                     extend: 'copy'
                 }
                 , {

@@ -18,7 +18,7 @@ use App\Http\Controllers\Counselor\CounselorAppointmentController;
 // student
 use App\Http\Controllers\Student\StudentAppointmentController;
 use App\Http\Controllers\Student\StudentProfileController;
-
+use App\Http\Controllers\Student\StudentDashboardController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,12 +44,14 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/counselor/appointments/update', [CounselorAppointmentController::class, 'updateAppointment'])->name('counselor.appointments.update');
     Route::get('/counselor/schedule', [CounselorScheduleController::class, 'index'])->name('counselor.schedule');
 
-
-    Route::get('/student/appointment', [StudentAppointmentController::class, 'index'])->name('student.appointment');
-    Route::get('/student/appointments', [StudentAppointmentController::class, 'appointments'])->name('student.appointments');
-    Route::get('/student/appointments', [StudentAppointmentController::class, 'index'])->name('student.appointments.index');
-    Route::post('/student/appointments', [StudentAppointmentController::class, 'store'])->name('student.appointments.store');
+    // Route::get('/student/appointment', [StudentAppointmentController::class, 'index'])->name('student.appointment');
+    // Route::get('/student/appointments', [StudentAppointmentController::class, 'appointments'])->name('student.appointments');
+    // Route::get('/student/appointments', [StudentAppointmentController::class, 'index'])->name('student.appointments.index');
+    // Route::post('/student/appointments', [StudentAppointmentController::class, 'store'])->name('student.appointments.store');
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
+    Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
+    Route::post('/student/dashboard/appointments', [StudentDashboardController::class, 'store'])->name('student.dashboard.store');
+ 
 });
 
 
@@ -60,8 +62,7 @@ Route::middleware(['auth', 'role:counselor'])->prefix('counselor')->name('counse
     Route::get('resources/edit/{id}', [ResourceController::class, 'edit'])->name('resources.edit');
     Route::put('resources/{id}', [ResourceController::class, 'update'])->name('resources.update');
     Route::delete('resources/{id}', [ResourceController::class, 'destroy'])->name('resources.destroy');
-});
-
+}); 
 
 
 // Normal user login (students & counselors share this)
