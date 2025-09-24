@@ -1,6 +1,6 @@
 <div align="center">
   <br />
-  <img src="https://i.imgur.com/your-custom-header-image.png" alt="SafeSupport Logo" width="150" />
+ <img src="{{ asset('template/img/profile_default.jpg') }}" alt="SafeSupport Logo" width="150" />
   <br />
   <h1 align="center">SafeSupport 🫂</h1>
   <p align="center">
