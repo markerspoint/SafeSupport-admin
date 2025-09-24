@@ -450,7 +450,7 @@
             $('input[name="date"]').attr('min', today);
         });
 
-        //delete
+        //delete button
         $(document).on('click', '.delete-btn', function() {
             var id = $(this).data('id');
             var $btn = $(this);
