@@ -48,4 +48,14 @@ class StudentDashboardController extends Controller
             return response()->json(['error' => $e->getMessage()], 500);
         }
     }
+
+    public function destroy($id)
+    {
+        $appointment = Appointment::findOrFail($id);
+        $appointment->delete();
+
+        return response()->json([
+            'message' => 'Appointment has been deleted.'
+        ]);
+    }
 }

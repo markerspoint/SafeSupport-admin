@@ -40,7 +40,7 @@
             <div class="ibox-title">
                 <h5>Edit Profile</h5>
             </div>
-            <div class="ibox-content">
+            <div class="ibox-content profile-content">
                 @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
@@ -84,6 +84,16 @@
         border-radius: 12px !important;
     }
 
+    .ibox-content.no-padding.border-left-right {
+        border: none !important;
+        border-radius: 0 !important;
+    }
+
+    .ibox-content.profile-content {
+        border: none !important;
+        border-radius: 0 !important;
+    }
+
     .ibox {
         overflow: hidden;
         transition: box-shadow 0.3s ease, transform 0.3s ease;
@@ -94,5 +104,31 @@
         box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
+
 </style>
 @endpush
+
+
+{{-- profile script --}}
+@push('scripts')
+<script>
+    $('a[data-toggle="tab"][href="#profile"]').on('shown.bs.tab', function() {
+        $('#profileForm').off('submit').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action'),
+                type: 'PUT',
+                data: $(this).serialize(),
+                success: function(response) {
+                    Swal.fire('Success', 'Profile updated!', 'success');
+                },
+                error: function(xhr) {
+                    Swal.fire('Error', 'Could not update profile.', 'error');
+                }
+            });
+        });
+    });
+</script>
+@endpush
+
