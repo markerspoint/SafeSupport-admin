@@ -19,12 +19,31 @@ return isset($matches[1]) ? "https://img.youtube.com/vi/{$matches[1]}/hqdefault.
         </div>
     </div>
 
+    <div class="row mb-3">
+        <div class="col-12">
+            <div class="btn-group" role="group" aria-label="Resource Type Filter">
+                <button type="button" class="btn active" data-filter="all">All</button>
+                <button type="button" class="btn" data-filter="video">Videos</button>
+                <button type="button" class="btn" data-filter="article">Articles</button>
+                <button type="button" class="btn" data-filter="tool">Tools</button>
+            </div>
+        </div>
+    </div>
+
     <div class="row">
         @forelse($resources as $resource)
-        <div class="col-lg-4 col-md-6 mb-4">
+        <div class="col-lg-4 col-md-6 mb-4 resource-card" data-type="{{ $resource->type }}">
             <div class="card shadow-sm h-100">
                 {{-- Thumbnail --}}
-                <img src="{{ $resource->type === 'video' && $resource->url ? youtubeThumbnail($resource->url) : asset('template/img/default_resource.png') }}" class="card-img-top" alt="{{ $resource->title }}" style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                @if($resource->type === 'video' && $resource->url)
+                <img src="{{ youtubeThumbnail($resource->url) }}" class="card-img-top" alt="{{ $resource->title }}" style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                @elseif($resource->type === 'article')
+                <div class="card-img-top d-flex align-items-center justify-content-center text-white font-weight-bold" style="height: 180px; background: #6c757d; border-radius: 12px 12px 0 0;">
+                    Article
+                </div>
+                @else
+                <img src="{{ asset('template/img/default_resource.png') }}" class="card-img-top" alt="{{ $resource->title }}" style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                @endif
 
                 <div class="card-body d-flex flex-column">
                     <h5 class="card-title">{{ $resource->title }}</h5>
@@ -38,7 +57,6 @@ return isset($matches[1]) ? "https://img.youtube.com/vi/{$matches[1]}/hqdefault.
                     </button>
                     @endif
 
-                    {{-- Open link button --}}
                     @if($resource->url)
                     <a href="{{ $resource->url }}" target="_blank" class="btn btn-primary btn-sm mt-auto">
                         <i class="fa fa-link"></i> Open Link
@@ -52,6 +70,7 @@ return isset($matches[1]) ? "https://img.youtube.com/vi/{$matches[1]}/hqdefault.
                 </div>
             </div>
         </div>
+
 
         {{-- Modal for full description --}}
         @if($resource->description)
@@ -100,5 +119,47 @@ return isset($matches[1]) ? "https://img.youtube.com/vi/{$matches[1]}/hqdefault.
         overflow: hidden;
     }
 
+    .btn-group .btn {
+        color: #1ab394;
+        border: 1px solid #1ab394;
+        background-color: transparent;
+        transition: all 0.3s;
+    }
+
+    .btn-group .btn.active,
+    .btn-group .btn:hover {
+        background-color: #1ab394;
+        color: #fff;
+        border-color: #1ab394;
+    }
+
 </style>
+@endpush
+
+
+@push('scripts')
+<script>
+    $(document).ready(function() {
+        $('.btn-group button').click(function() {
+            // Highlight active button
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+
+            var filter = $(this).data('filter');
+
+            $('.resource-card').each(function() {
+                if (filter === 'all') {
+                    $(this).show();
+                } else {
+                    if ($(this).data('type') === filter) {
+                        $(this).show();
+                    } else {
+                        $(this).hide();
+                    }
+                }
+            });
+        });
+    });
+
+</script>
 @endpush
