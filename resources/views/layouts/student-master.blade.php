@@ -3,6 +3,7 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="icon" type="image/png" href="{{ asset('template/img/safecenter-logo.png') }}">
@@ -21,8 +22,8 @@
     {{-- data tables --}}
     <link href="{{ asset('template/css/plugins/dataTables/datatables.min.css') }}" rel="stylesheet">
 
-    <!-- Toastr style -->
-    <link href="{{asset('template/css/plugins/toastr/toastr.min.css')}}" rel="stylesheet">
+    {{-- <!-- Toastr style -->
+    <link href="{{asset('template/css/plugins/toastr/toastr.min.css')}}" rel="stylesheet"> --}}
 
     <!-- Gritter -->
     <link href="{{asset('template/js/plugins/gritter/jquery.gritter.css')}}" rel="stylesheet">
@@ -39,6 +40,9 @@
 
     <!-- morris chart -->
     <link href="{{ asset('template/css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
+
+    <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
 </head>
 
 <style>
@@ -52,7 +56,6 @@
 
 <body>
     <div id="wrapper">
-
         <nav class="navbar-default navbar-static-side" role="navigation">
             <div class="sidebar-collapse">
                 <ul class="nav metismenu" id="side-menu">
@@ -75,17 +78,17 @@
                         </div>
                     </li>
                     {{-- <li class="{{ request()->routeIs('student.appointment') ? 'active' : '' }}">
-                        <a href="{{ route('student.appointment') }}">
-                            <i class="fa fa-suitcase"></i>
-                            <span class="nav-label">Appointments</span>
-                        </a>
+                    <a href="{{ route('student.appointment') }}">
+                        <i class="fa fa-suitcase"></i>
+                        <span class="nav-label">Appointments</span>
+                    </a>
                     </li> --}}
 
                     <li class="{{ request()->routeIs('student.dashboard') ? 'active' : '' }}">
-                    <a href="{{ route('student.dashboard') }}">
-                        <i class="fa fa-calendar"></i>
-                        <span class="nav-label">Dashboard</span>
-                    </a>
+                        <a href="{{ route('student.dashboard') }}">
+                            <i class="fa fa-calendar"></i>
+                            <span class="nav-label">Dashboard</span>
+                        </a>
                     </li>
                 </ul>
             </div>
@@ -109,7 +112,6 @@
                             </a>
                         </li>
                     </ul>
-
                 </nav>
             </div>
 
@@ -171,7 +173,7 @@
     <script src="{{asset('template/js/plugins/morris/morris.js')}}"></script>
 
     <!-- Toastr -->
-    <script src="{{asset('template/js/plugins/toastr/toastr.min.js')}}"></script>
+    {{-- <script src="{{asset('template/js/plugins/toastr/toastr.min.js')}}"></script> --}}
 
     {{-- data tables --}}
     <script src="{{ asset('template/js/plugins/dataTables/datatables.min.js') }}"></script>
@@ -188,22 +190,73 @@
     <script src="{{ asset('template/plugins/daterangepicker/daterangepicker.js') }}"></script>
 
     {{-- toast --}}
-    <script>
+    {{-- <script>
         @if(session('success'))
         toastr.success("{{ session('success') }}", "Success");
-        @endif
+    @endif
 
-        @if(session('error'))
-        toastr.error("{{ session('error') }}", "Error");
-        @endif
+    @if(session('error'))
+    toastr.error("{{ session('error') }}", "Error");
+    @endif
 
-        @if(session('info'))
-        toastr.info("{{ session('info') }}", "Info");
-        @endif
+    @if(session('info'))
+    toastr.info("{{ session('info') }}", "Info");
+    @endif
 
-        @if(session('warning'))
-        toastr.warning("{{ session('warning') }}", "Warning");
-        @endif
+    @if(session('warning'))
+    toastr.warning("{{ session('warning') }}", "Warning");
+    @endif
+
+    </script> --}}
+
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+    {{-- sweet alert --}}
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            @if(session('success'))
+            Swal.fire({
+                icon: 'success'
+                , title: 'Success!'
+                , text: "{{ session('success') }}"
+                , showConfirmButton: true, // modal will have OK button
+                confirmButtonText: 'OK'
+            });
+            @endif
+
+            @if(session('error'))
+            Swal.fire({
+                icon: 'error'
+                , title: 'Error!'
+                , text: "{{ session('error') }}"
+                , showConfirmButton: true
+                , confirmButtonText: 'OK'
+            });
+            @endif
+
+            @if(session('warning'))
+            Swal.fire({
+                icon: 'warning'
+                , title: 'Warning!'
+                , text: "{{ session('warning') }}"
+                , showConfirmButton: true
+                , confirmButtonText: 'OK'
+            });
+            @endif
+
+            @if(session('info'))
+            Swal.fire({
+                icon: 'info'
+                , title: 'Info'
+                , text: "{{ session('info') }}"
+                , showConfirmButton: true
+                , confirmButtonText: 'OK'
+            });
+            @endif
+        });
 
     </script>
 
