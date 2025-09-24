@@ -53,7 +53,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::post('/student/dashboard/appointments', [StudentDashboardController::class, 'store'])->name('student.dashboard.store');
     Route::get('/student/dashboard/appointments', [StudentDashboardController::class, 'ajaxAppointments'])->name('student.dashboard.appointments');
-    Route::delete('/student/appointments/delete/{appointment}', [StudentDashboardController::class, 'destroy'])->name('student.appointments.destroy');
+    Route::delete('/student/dashboard/appointments/{id}', [StudentDashboardController::class, 'destroy'])->name('student.dashboard.destroy');
 });
 
 

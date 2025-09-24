@@ -96,3 +96,27 @@
     }
 </style>
 @endpush
+
+
+{{-- profile script --}}
+@push('scripts')
+<script>
+    $('a[data-toggle="tab"][href="#profile"]').on('shown.bs.tab', function() {
+        $('#profileForm').off('submit').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action')
+                , type: 'PUT'
+                , data: $(this).serialize()
+                , success: function(response) {
+                    Swal.fire('Success', 'Profile updated!', 'success');
+                }
+                , error: function(xhr) {
+                    Swal.fire('Error', 'Could not update profile.', 'error');
+                }
+            });
+        });
+    });
+</script>
+@endpush

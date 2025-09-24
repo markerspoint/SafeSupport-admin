@@ -215,52 +215,7 @@
     <!-- SweetAlert2 -->
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            @if(session('success'))
-            Swal.fire({
-                icon: 'success'
-                , title: 'Success!'
-                , text: "{{ session('success') }}"
-                , showConfirmButton: true, // modal will have OK button
-                confirmButtonText: 'OK'
-            });
-            @endif
-
-            @if(session('error'))
-            Swal.fire({
-                icon: 'error'
-                , title: 'Error!'
-                , text: "{{ session('error') }}"
-                , showConfirmButton: true
-                , confirmButtonText: 'OK'
-            });
-            @endif
-
-            @if(session('warning'))
-            Swal.fire({
-                icon: 'warning'
-                , title: 'Warning!'
-                , text: "{{ session('warning') }}"
-                , showConfirmButton: true
-                , confirmButtonText: 'OK'
-            });
-            @endif
-
-            @if(session('info'))
-            Swal.fire({
-                icon: 'info'
-                , title: 'Info'
-                , text: "{{ session('info') }}"
-                , showConfirmButton: true
-                , confirmButtonText: 'OK'
-            });
-            @endif
-        });
-
-    </script>
-
-    @yield('scripts')
+    @stack('scripts')
 </body>
 
 </html>
