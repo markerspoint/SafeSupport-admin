@@ -1,10 +1,9 @@
 @extends('layouts.counselor-master')
 @section('body')
 
-<section class="animated fadeInRight">
+<section class="content-header animated fadeInDown">
     <div class="row">
-        {{-- Main Content --}}
-        <div class="col-lg-9">
+        <div class="col-lg-9 ">
             <div class="ibox">
                 <div class="ibox-content">
                     <div>
@@ -16,12 +15,10 @@
                             Total Appointments: {{ $acceptedCount + $pendingCount + $rejectedCount }}
                         </span>
                         <h3 class="font-bold no-margins">
-                            Appointment Summary
+                            Accepted Appointments
                         </h3>
                         <small>Accepted: {{ $acceptedCount }} | Pending: {{ $pendingCount }} | Rejected: {{ $rejectedCount }}</small>
                     </div>
-
-                    {{-- Chart --}}
                     <div id="legend" style="text-align:center; margin-left:13rem; margin-bottom:10px;"></div>
                     <div id="morris-area-chart" style="height: 250px;"></div>
 
@@ -31,44 +28,68 @@
                             Last updated: {{ now()->format('d M Y, h:i A') }}
                         </small>
                         <small>
-                            <strong>SafeSupport Analysis:</strong> Trends of appointment statuses (Accepted, Pending, Rejected) over time.
+                            <strong>SafeSupport Analysis:</strong> Trends of appointment statuses (Accepted, Pending,
+                            Rejected) over time.
                         </small>
                     </div>
                 </div>
             </div>
 
-            {{-- Appointment Iboxes --}}
-            @php
-            $appointmentsStatus = [
-            ['title' => 'Accepted', 'count' => $acceptedCount, 'icon' => 'check'],
-            ['title' => 'Pending', 'count' => $pendingCount, 'icon' => 'clock-o'],
-            ['title' => 'Rejected', 'count' => $rejectedCount, 'icon' => 'times'],
-            ];
-            @endphp
-
+            {{-- Appointment Cards --}}
             <div class="row mt-3">
-                @foreach($appointmentsStatus as $status)
-                <div class="col-lg-4 col-md-6 col-sm-12 mb-3 d-flex">
-                    <div class="ibox flex-fill shadow-sm">
-                        <div class="ibox-title gray-title">
-                            {{ $status['title'] }} Appointments
+                <div class="col-lg-4 mb-3 d-flex">
+                    <div class="card flex-fill shadow-sm">
+                        <div class="card-header bg-light text-dark">
+                            <h5 class="mb-0">Accepted Appointments</h5>
                         </div>
-                        <div class="ibox-content d-flex align-items-center justify-content-between flex-column flex-sm-row">
-                            <div class="gray-content">
-                                <h1 class="mb-1">{{ $status['count'] }}</h1>
-                                <small>Appointments {{ $status['title'] }}</small>
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <h1 class="mb-1">{{ $acceptedCount }}</h1>
+                                <small>Appointments Accepted</small>
                             </div>
-                            <div class="text-muted gray-content mt-2 mt-sm-0">
-                                <i class="fa fa-{{ $status['icon'] }}" style="font-size:40px;"></i>
+                            <div class="text-muted">
+                                <i class="fa fa-check" style="font-size:40px;"></i>
                             </div>
                         </div>
                     </div>
                 </div>
-                @endforeach
+
+                <div class="col-lg-4 mb-3 d-flex">
+                    <div class="card flex-fill shadow-sm">
+                        <div class="card-header bg-light text-dark">
+                            <h5 class="mb-0">Pending Appointments</h5>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <h1 class="mb-1">{{ $pendingCount }}</h1>
+                                <small>Appointments Pending</small>
+                            </div>
+                            <div class="text-muted">
+                                <i class="fa fa-clock-o" style="font-size:40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-lg-4 mb-3 d-flex">
+                    <div class="card flex-fill shadow-sm">
+                        <div class="card-header bg-light text-dark">
+                            <h5 class="mb-0">Rejected Appointments</h5>
+                        </div>
+                        <div class="card-body d-flex align-items-center justify-content-between">
+                            <div>
+                                <h1 class="mb-1">{{ $rejectedCount }}</h1>
+                                <small>Appointments Rejected</small>
+                            </div>
+                            <div class="text-muted">
+                                <i class="fa fa-times" style="font-size:40px;"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
             </div>
         </div>
 
-        {{-- Sidebar Timeline --}}
         <div class="col-lg-3">
             <div class="ibox">
                 <div class="ibox-title">
@@ -80,8 +101,8 @@
                         </a>
                     </div>
                 </div>
+
                 <div class="ibox-content inspinia-timeline">
-                    {{-- Example Timeline Items --}}
                     <div class="timeline-item">
                         <div class="row">
                             <div class="col-3 date">
@@ -92,10 +113,13 @@
                             </div>
                             <div class="col-7 content no-top-border">
                                 <p class="m-b-xs"><strong>Meeting</strong></p>
-                                <p>Conference on the sales results for the previous year. Monica please examine sales trends in marketing and products.</p>
+                                <p>Conference on the sales results for the previous year. Monica please examine
+                                    sales
+                                    trends in marketing and products.</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="timeline-item">
                         <div class="row">
                             <div class="col-3 date">
@@ -110,6 +134,7 @@
                             </div>
                         </div>
                     </div>
+
                     <div class="timeline-item">
                         <div class="row">
                             <div class="col-3 date">
@@ -118,10 +143,12 @@
                             </div>
                             <div class="col-7 content">
                                 <p class="m-b-xs"><strong>Coffee Break</strong></p>
-                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the printing industry.</p>
+                                <p>Go to shop and find some products. Lorem Ipsum is simply dummy text of the
+                                    printing industry.</p>
                             </div>
                         </div>
                     </div>
+
                     <div class="timeline-item">
                         <div class="row">
                             <div class="col-3 date">
@@ -136,57 +163,63 @@
                             </div>
                         </div>
                     </div>
+
                 </div>
             </div>
         </div>
     </div>
+
 </section>
 @endsection
 
 @push('style')
 <style>
-    .card-title-green {
-    color: #1ab394 !important; /* updated green color */
-}
-
     .timeline-item .date i {
         color: #676a6c;
     }
 
+    .ibox.accepted .ibox-title,
+    .ibox.accepted .ibox-content {
+        background: #ffffff;
+        color: #676a6c;
+    }
+
     .ibox {
-        border-radius: 12px !important;
         overflow: hidden;
         transition: box-shadow 0.3s ease, transform 0.3s ease;
-        background-color: #fff;
+        border-radius: 12px !important;
     }
 
     .ibox:hover {
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
 
-    .ibox-title {
-        font-weight: 600;
-        padding: 10px 15px;
-        background-color: #fff;
-        color: #6c757d;
+    .card {
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px !important;
+    }
+
+    .card:hover {
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1) !important;
+        cursor: pointer;
+    }
+
+    .card-header,
+    .card-body {
+        background-color: #ffffff !important;
+        color: #676a6c;
+    }
+
+    .card-header {
         border-bottom: none;
     }
 
-    .ibox-content {
-        background-color: #fff;
-        color: #6c757d;
-        min-height: 100px;
-        padding: 20px;
+    .card-body i {
+        color: #676a6c;
+        /* gray icon color */
     }
-
-    .gray-title {
-        color: #6c757d !important;
-    }
-
-    .gray-content {
-        color: #6c757d !important;
-    }
-
 </style>
 @endpush
 
@@ -209,8 +242,8 @@
 
     var chart = new Morris.Area(config);
     var active = config.ykeys.map(() => true);
-    var legend = document.getElementById('legend');
 
+    var legend = document.getElementById('legend');
     config.labels.forEach(function(label, i) {
         var span = document.createElement('span');
         span.innerHTML = '<span style="color:' + config.lineColors[i] + '">■</span> ' + label;

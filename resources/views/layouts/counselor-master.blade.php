@@ -36,6 +36,7 @@
 
     <!-- morris -->
     <link href="{{ asset('template/css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
+    @stack('style')
 </head>
 
 <style>
@@ -214,7 +215,7 @@
 
     </script>
 
-    @yield('scripts')
+    @stack('scripts')
 </body>
 
 </html>
