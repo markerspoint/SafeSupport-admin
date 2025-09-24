@@ -8,7 +8,7 @@
         <ul class="nav nav-tabs nav-fill" id="dashboardTabs" role="tablist">
             <li class="nav-item">
                 <a class="nav-link tab-card active" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab">
-                    <i class="fa fa-calendar fa-2x mb-2"></i></i>
+                    <i class="fa fa-calendar fa-2x mb-2"></i>
 
                     <div>Appointments</div>
                 </a>
@@ -16,7 +16,7 @@
 
             <li class="nav-item">
                 <a class="nav-link tab-card" id="resources-tab" data-toggle="tab" href="#resources" role="tab">
-                    <i class="fa fa-book fa-2x mb-2"></i></i>
+                    <i class="fa fa-book fa-2x mb-2"></i>
                     <div>Resources</div>
                 </a>
             </li>
@@ -31,7 +31,7 @@
             <li class="nav-item">
                 <a class="nav-link tab-card" id="calendar-tab" data-toggle="tab" href="#calendar" role="tab">
                     <i class="fa fa-clock-o fa-2x mb-2"></i>
-                    <div>Counselor Schedule</div>
+                    <div style="font-size: 0.7rem; !important">Counselor Schedule</div>
                 </a>
             </li>
         </ul>
@@ -44,7 +44,8 @@
 
             <div class="mb-4 mt-3">
                 <button type="button" class="btn btn-primary" style="border-radius: 12px;" data-toggle="modal" data-target="#appointmentModal">
-                    Book Appointment
+                    <strong>Book Appointment</strong>
+                    <i class="fa fa-arrow-right ml-2"></i>
                 </button>
             </div>
 
@@ -72,8 +73,6 @@
             </div>
         </div>
 
-
-        <!-- Resources Tab -->
         <div class="tab-pane fade" id="resources" role="tabpanel" aria-labelledby="resources-tab">
             <div class="mt-3">
                 <h3>Resources</h3>
@@ -81,7 +80,6 @@
             </div>
         </div>
 
-        <!-- Profile Tab -->
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="mt-3">
                 <h3>Profile Section</h3>
@@ -89,7 +87,6 @@
             </div>
         </div>
 
-        <!-- Profile Tab -->
         <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
             <div class="mt-3">
                 <h3>calendar Section</h3>
@@ -151,9 +148,6 @@
 {{-- style --}}
 @section('style')
 <style>
-    /* -------------------------
-   Variables (easy tuning)
-   ------------------------- */
     :root {
         --tab-card-w: 10rem;
         --tab-card-h: 6.2rem;
@@ -165,9 +159,6 @@
         --tab-card-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.08);
     }
 
-    /* -------------------------
-   Base / typography
-   ------------------------- */
     body,
     h1,
     h2,
@@ -191,9 +182,7 @@
         font-weight: 400;
     }
 
-    /* -------------------------
-   Existing components left intact
-   ------------------------- */
+
     #dashHead,
     .ibox,
     .ibox-content {
@@ -207,7 +196,7 @@
         cursor: pointer;
     }
 
-    /* Timeline (kept as-is) */
+    /* Timeline  */
     .timeline {
         border-left: .1875rem solid var(--tab-card-color);
         margin-left: 1.25rem;
@@ -227,17 +216,15 @@
     }
 
     .timeline-point {
-        width: .75rem;
-        height: .75rem;
+        width: 2rem;
+        height: 2rem;
         border-radius: 50%;
         position: absolute;
-        left: -.5625rem;
-        top: .625rem;
+        left: -2.3rem;
+        top: 3rem;
     }
 
-    /* -------------------------
-   Tab wrapper
-   ------------------------- */
+    /* Tab wrapper */
     .tab-wrapper {
         background: var(--tab-card-bg);
         border-radius: .75rem;
@@ -265,9 +252,7 @@
         border-color: #b0bec5;
     }
 
-    /* -------------------------
-   Nav-tabs container (desktop: flex, mobile: grid)
-   ------------------------- */
+    /* Nav-tabs container  */
     .nav-tabs {
         display: flex !important;
         flex-wrap: wrap;
@@ -316,7 +301,7 @@
     /* hover */
     .nav-tabs .nav-link.tab-card:hover {
         background: #f8f9fa;
-        transform: translateY(-.125rem);
+        /* transform: translateY(-.125rem); */
         box-shadow: 0 .25rem .625rem rgba(0, 0, 0, 0.12);
     }
 
@@ -345,78 +330,122 @@
             grid-template-columns: repeat(2, 1fr) !important;
             justify-content: stretch !important;
         }
-
     }
 
 </style>
 @endsection
 
-
-
-
 {{-- script --}}
 @section('scripts')
 <script>
-    $(document).ready(function() {
-        // Appointment booking AJAX (already working)
-        $('#bookAppointmentBtn').click(function() {
-            var form = $('#appointmentForm');
-            $.ajax({
-                url: '{{ route("student.dashboard.store") }}'
-                , type: 'POST'
-                , data: form.serialize()
-                , success: function(response) {
-                    $('#appointmentModal').modal('hide');
-                    form[0].reset();
-                    var newTimelineItem = `
-                    <div class="timeline-item">
-                        <div class="timeline-point bg-primary"></div>
-                        <div class="timeline-content p-3 mb-3 card" style="margin-left: 1rem;">
-                            <p><strong>Counselor:</strong> ${response.counselor_name}</p>
-                            <p><strong>Date:</strong> ${response.date}</p>
-                            <p><strong>Time:</strong> ${response.time}</p>
-                            <p><strong>Reason:</strong> ${response.reason}</p>
-                            <p><strong>Status:</strong>
-                                <span class="badge {{ $appointment->statusBadgeClass() }}">
-                                    {{ ucfirst($appointment->status) }}
-                                </span>
-                            </p>
-                        </div>
-                    </div>
-                `;
-                    $('.timeline').prepend(newTimelineItem);
-                    toastr.success('Appointment booked successfully!');
+    $('#bookAppointmentBtn').on('click', function() {
+        var $btn = $(this);
+        var $form = $('#appointmentForm');
+
+        $btn.prop('disabled', true).text('Booking…');
+
+        $.ajax({
+            url: '{{ route("student.dashboard.store") }}'
+            , type: 'POST'
+            , data: $form.serialize()
+            , dataType: 'json'
+            , headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            }
+            , success: function(response) {
+                $('#appointmentModal').modal('hide');
+                $form[0].reset();
+                $btn.prop('disabled', false).text('Book');
+
+                $.ajax({
+                    url: '{{ route("student.dashboard") }}?page=1'
+                    , type: 'GET'
+                    , success: function(resp) {
+                        let html = $(resp).find('.timeline').html();
+                        let pagination = $(resp).find('.pagination').html();
+                        $('.timeline').html(html);
+                        $('.pagination').html(pagination);
+                    }
+                });
+
+                Swal.fire({
+                    title: 'Appointment Booked!'
+                    , text: 'Your appointment has been successfully created.'
+                    , icon: 'success'
+                    , confirmButtonText: 'OK'
+                });
+            }
+            , error: function(xhr) {
+                $btn.prop('disabled', false).text('Book');
+
+                let message = 'Something went wrong. Please try again.';
+
+                if (xhr.status === 422 && xhr.responseJSON && xhr.responseJSON.errors) {
+                    message = '';
+                    $.each(xhr.responseJSON.errors, function(k, v) {
+                        message += (v[0] || '') + '\n';
+                    });
                 }
-                , error: function(xhr) {
-                    console.log(xhr.responseText);
-                    toastr.error('Something went wrong.');
-                }
-            });
+
+                Swal.fire({
+                    title: 'Error'
+                    , text: message
+                    , icon: 'error'
+                    , confirmButtonText: 'Close'
+                });
+
+                console.error('Booking error:', xhr.status, xhr.responseText);
+            }
         });
-
-        // AJAX pagination
-        $(document).on('click', '.pagination a', function(e) {
-            e.preventDefault();
-            var url = $(this).attr('href');
-
-            $.ajax({
-                url: url
-                , type: 'GET'
-                , success: function(response) {
-                    var html = $(response).find('.timeline').html();
-                    $('.timeline').html(html);
-
-                    var pagination = $(response).find('.pagination').html();
-                    $('.pagination').html(pagination);
-                }
-                , error: function(xhr) {
-                    console.log(xhr.responseText);
-                    toastr.error('Could not load page.');
-                }
-            });
-        });
-
     });
 
+    // escape HTML to avoid XSS
+    function escapeHtml(unsafe) {
+        return String(unsafe || '').replace(/[&<>"'`=\/]/g, function(s) {
+            return ({
+                '&': '&amp;'
+                , '<': '&lt;'
+                , '>': '&gt;'
+                , '"': '&quot;'
+                , "'": '&#39;'
+                , '/': '&#x2F;'
+                , '`': '&#x60;'
+                , '=': '&#x3D;'
+            })[s];
+        });
+    }
+
+    // AJAX pagination
+    $(document).on('click', '.pagination a', function(e) {
+        e.preventDefault();
+        var url = $(this).attr('href');
+
+        $.ajax({
+            url: url
+            , type: 'GET'
+            , success: function(response) {
+                var html = $(response).find('.timeline').html();
+                $('.timeline').html(html);
+
+                var pagination = $(response).find('.pagination').html();
+                $('.pagination').html(pagination);
+            }
+            , error: function(xhr) {
+                Swal.fire({
+                    title: 'Error'
+                    , text: 'Could not load page.'
+                    , icon: 'error'
+                    , confirmButtonText: 'Close'
+                });
+                console.log(xhr.responseText);
+            }
+        });
+    });
+
+    // prevent booking of past days
+    $(document).ready(function() {
+        var today = new Date().toISOString().split('T')[0];
+        $('input[name="date"]').attr('min', today);
+    });
 </script>
 @endsection
