@@ -50,6 +50,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/student/dashboard/appointments', [StudentDashboardController::class, 'store'])->name('student.dashboard.store');
     Route::get('/student/dashboard/appointments', [StudentDashboardController::class, 'ajaxAppointments'])->name('student.dashboard.appointments');
     Route::delete('/student/dashboard/appointments/{id}', [StudentDashboardController::class, 'destroy'])->name('student.dashboard.destroy');
+    Route::get('/student/resources', [ResourceController::class, 'studentIndex'])->name('student.resources.index');
 });
 
 
