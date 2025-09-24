@@ -1,7 +1,4 @@
 <div align="center">
-  <br />
- <img src="{{ asset('template/img/profile_default.jpg') }}" alt="SafeSupport Logo" width="150" />
-  <br />
   <h1 align="center">SafeSupport 🫂</h1>
   <p align="center">
     A comprehensive mental health appointment booking system for students, counselors, and administrators.
