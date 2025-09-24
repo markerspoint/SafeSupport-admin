@@ -203,7 +203,6 @@
             border: 1px solid #e4e7ec;
             background: #fff;
             border-radius: .75rem;
-            box-shadow: 0 .25rem .625rem rgba(0, 0, 0, 0.05);
             padding: 1rem;
         }
 
