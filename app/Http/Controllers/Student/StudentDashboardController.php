@@ -41,6 +41,7 @@ class StudentDashboardController extends Controller
                 'counselor_name' => $appointment->counselor->name,
                 'date' => $appointment->appointment_time->format('M d, Y'),
                 'time' => $appointment->appointment_time->format('h:i A'),
+                'reason' => $appointment->reason,
                 'status' => ucfirst($appointment->status),
             ]);
         } catch (\Exception $e) {
