@@ -18,24 +18,20 @@ class StudentProfileController extends Controller
     public function update(Request $request)
     {
         $user = auth()->user();
+        $user->name = $request->name;
+        $user->email = $request->email;
 
-        // Validate input
-        $data = $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|max:255|unique:users,email,' . $user->id,
-            'password' => 'nullable|string|min:6|confirmed',
-        ]);
-
-        // Update user data
-        $user->name = $data['name'];
-        $user->email = $data['email'];
-
-        if (!empty($data['password'])) {
-            $user->password = Hash::make($data['password']);
+        if ($request->password) {
+            $user->password = Hash::make($request->password);
         }
 
         $user->save();
 
-        return redirect()->back()->with('success', 'Profile updated successfully!');
+        if ($request->ajax()) {
+            return response()->json(['message' => 'Profile updated!']);
+        }
+
+        return redirect()->back()->with('success', 'Profile updated!');
     }
+
 }
