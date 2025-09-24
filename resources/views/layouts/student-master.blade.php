@@ -211,9 +211,6 @@
 
     <!-- SweetAlert2 -->
     <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
-    {{-- sweet alert --}}
-    <!-- SweetAlert2 -->
-    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
     @stack('scripts')
 </body>

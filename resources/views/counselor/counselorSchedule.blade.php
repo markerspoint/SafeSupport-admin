@@ -1,43 +1,5 @@
 @extends('layouts.counselor-master')
 
-<style>
-    #schedHead {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    .ibox {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    .ibox:hover {
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
-
-    .fc-button {
-        background: #fff !important;
-        color: #676a6c !important;
-        font-weight: 500;
-
-        box-shadow: none !important;
-        text-shadow: none !important;
-        background-image: none !important;
-    }
-
-    .fc-dayGridMonth-button.fc-button-active,
-    .fc-timeGridWeek-button.fc-button-active,
-    .fc-timeGridDay-button.fc-button-active {
-        background: #1ab394 !important;
-        color: #fff !important;
-        border-color: #1ab394 !important;
-    }
-
-</style>
-
 @section('body')
 <section class="animated fadeInDown">
 
@@ -113,6 +75,46 @@
     </div>
 
 </section>
+@endsection
+
+@section('style')
+<style>
+    #schedHead {
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px !important;
+    }
+
+    .ibox {
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px !important;
+    }
+
+    .ibox:hover {
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+
+    .fc-button {
+        background: #fff !important;
+        color: #676a6c !important;
+        font-weight: 500;
+
+        box-shadow: none !important;
+        text-shadow: none !important;
+        background-image: none !important;
+    }
+
+    .fc-dayGridMonth-button.fc-button-active,
+    .fc-timeGridWeek-button.fc-button-active,
+    .fc-timeGridDay-button.fc-button-active {
+        background: #1ab394 !important;
+        color: #fff !important;
+        border-color: #1ab394 !important;
+    }
+
+</style>
 @endsection
 
 @section('scripts')
@@ -219,5 +221,4 @@
     });
 
 </script>
-
 @endsection

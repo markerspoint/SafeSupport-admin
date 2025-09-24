@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers\Counselor;
+
 use App\Models\Appointment;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Controllers\Controller;
@@ -8,15 +9,9 @@ use Illuminate\Http\Request;
 
 class CounselorAppointmentController extends Controller
 {
+    // Combined method: fetch appointments and return view
     public function index()
     {
-        return view('counselor.counselorAppointment');
-    }
-
-    public function appointments()
-    {
-        $counselorId = Auth::id();
-
         $appointments = Appointment::with(['student'])
             ->where('counselor_id', auth()->id())
             ->orderBy('created_at', 'desc')
@@ -25,18 +20,20 @@ class CounselorAppointmentController extends Controller
         return view('counselor.counselorAppointment', compact('appointments'));
     }
 
-    public function updateAppointment(Request $request)
+    // Update appointment via AJAX
+    public function update(Request $request)
     {
-        $appointment = Appointment::findOrFail($request->id);
-        $appointment->status = $request->status;
-        $appointment->notes = $request->notes;
+        $validated = $request->validate([
+            'id' => 'required|exists:appointments,id',
+            'status' => 'required|string|in:pending,approved,rejected,cancelled',
+            'notes' => 'nullable|string'
+        ]);
+
+        $appointment = Appointment::findOrFail($validated['id']);
+        $appointment->status = $validated['status'];
+        $appointment->notes = $validated['notes'] ?? null;
         $appointment->save();
 
-        if ($request->ajax()) {
-            return response()->json(['success' => true, 'appointment' => $appointment]);
-        }
-
-        return redirect()->back()->with('success', 'Appointment updated successfully!');
+        return response()->json(['success' => true]);
     }
-
 }

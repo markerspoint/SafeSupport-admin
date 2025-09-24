@@ -40,8 +40,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/counselor/profile', [CounselorProfileController::class, 'index'])->name('counselor.profile');
     Route::post('/counselor/profile/update', [CounselorProfileController::class, 'update'])->name('counselor.profile.update');
     Route::get('/counselor/appointment', [CounselorAppointmentController::class, 'index'])->name('counselor.appointment');
-    Route::get('/counselor/appointment', [CounselorAppointmentController::class, 'appointments'])->name('counselor.appointment');
-    Route::post('/counselor/appointments/update', [CounselorAppointmentController::class, 'updateAppointment'])->name('counselor.appointments.update');
+    Route::post('/counselor/appointments/update', [CounselorAppointmentController::class, 'update'])->name('counselor.appointments.update');
     Route::get('/counselor/schedule', [CounselorScheduleController::class, 'index'])->name('counselor.schedule');
 
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
@@ -61,7 +60,7 @@ Route::middleware(['auth', 'role:counselor'])->prefix('counselor')->name('counse
     Route::get('resources/edit/{id}', [ResourceController::class, 'edit'])->name('resources.edit');
     Route::put('resources/{id}', [ResourceController::class, 'update'])->name('resources.update');
     Route::delete('resources/{id}', [ResourceController::class, 'destroy'])->name('resources.destroy');
-}); 
+});
 
 
 // Normal user login (students & counselors share this)

@@ -36,6 +36,10 @@
 
     <!-- morris -->
     <link href="{{ asset('template/css/plugins/morris/morris-0.4.3.min.css') }}" rel="stylesheet">
+
+     <!-- SweetAlert2 -->
+    <link rel="stylesheet" href="{{ asset('template/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
+    
     @stack('style')
 </head>
 
@@ -195,25 +199,8 @@
     <!-- Full Calendar -->
     <script src="{{asset('template/js/plugins/fullcalendar/fullcalendar.min.js')}}"></script>
 
-    {{-- toast --}}
-    <script>
-        @if(session('success'))
-        toastr.success("{{ session('success') }}", "Success");
-        @endif
-
-        @if(session('error'))
-        toastr.error("{{ session('error') }}", "Error");
-        @endif
-
-        @if(session('info'))
-        toastr.info("{{ session('info') }}", "Info");
-        @endif
-
-        @if(session('warning'))
-        toastr.warning("{{ session('warning') }}", "Warning");
-        @endif
-
-    </script>
+    <!-- SweetAlert2 -->
+    <script src="{{ asset('template/plugins/sweetalert2/sweetalert2.min.js') }}"></script>
 
     @stack('scripts')
 </body>
