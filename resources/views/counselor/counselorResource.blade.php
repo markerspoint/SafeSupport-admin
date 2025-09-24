@@ -1,31 +1,249 @@
 @extends('layouts.counselor-master')
 
+@section('body')
+@php
+use App\Models\Resource;
+$resources = Resource::latest()->get();
+@endphp
+
+@php
+if (!function_exists('youtubeThumbnail')) {
+function youtubeThumbnail($url) {
+preg_match("/v=([a-zA-Z0-9_-]+)/", $url, $matches);
+return isset($matches[1]) ? "https://img.youtube.com/vi/{$matches[1]}/hqdefault.jpg" : asset('template/img/default_resource.png');
+}
+}
+@endphp
+
+<section class="animated fadeInRight">
+    <div class="border-bottom white-bg page-heading" id="resourcesHead">
+        <div class="col-lg-12">
+            <h2 class="heading-hover"><i class="fa fa-book"></i> Resources</h2>
+            <ol class="breadcrumb">
+                <li class="breadcrumb-item">
+                    <a href="{{ route('counselor.dashboard') }}">Dashboard</a>
+                </li>
+                <li class="breadcrumb-item active">
+                    <strong>Resources</strong>
+                </li>
+            </ol>
+        </div>
+    </div>
+
+    <div class="row mt-3">
+        <div class="col-lg-12">
+            <div class="ibox">
+                <div class="ibox-title d-flex justify-content-between align-items-center">
+                    <h3 class="font-bold">Resource Manager</h3>
+                    <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#addResourceModal">
+                        <i class="fa fa-plus"></i> Add New Resource
+                    </button>
+                </div>
+
+                <!-- Add Resource Modal -->
+                <div class="modal fade" id="addResourceModal" tabindex="-1" role="dialog" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add New Resource</h5>
+                                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
+                            </div>
+
+                            <form action="{{ route('counselor.resources.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <div class="modal-body">
+                                    <div class="form-group">
+                                        <label>Title</label>
+                                        <input type="text" name="title" class="form-control" required>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Description</label>
+                                        <textarea name="description" class="form-control" rows="3"></textarea>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label>Type</label>
+                                        <select name="type" class="form-control" id="resourceType" required>
+                                            <option value="video">Video</option>
+                                            <option value="tool">Self-help Tool</option>
+                                            <option value="article">Article</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group" id="resourceUrlGroup">
+                                        <label>URL (for Video/Article)</label>
+                                        <input type="url" name="url" class="form-control" placeholder="https://example.com">
+                                    </div>
+
+                                    <div class="form-group" id="resourceFileGroup" style="display:none;">
+                                        <label>Upload Tool (PDF, DOCX)</label>
+                                        <input type="file" name="file_path" class="form-control">
+                                        <small class="form-text text-muted">Or provide a URL to an external form like Google Form.</small>
+                                    </div>
+                                </div>
+
+                                <div class="modal-footer">
+                                    <button type="submit" class="btn btn-success">Save Resource</button>
+                                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                </div>
+                            </form>
+
+                        </div>
+                    </div>
+                </div>
+
+
+                {{-- main content --}}
+                <div class="ibox-content">
+                    <!-- Filter Buttons -->
+                    <div class="mb-3">
+                        <div class="btn-group" role="group" aria-label="Resource Type Filter">
+                            <button type="button" class="btn active" data-filter="all">All</button>
+                            <button type="button" class="btn" data-filter="video">Videos</button>
+                            <button type="button" class="btn" data-filter="article">Articles</button>
+                            <button type="button" class="btn" data-filter="tool">Tools</button>
+                        </div>
+                    </div>
+
+                    <!-- Resource Cards -->
+                    <div class="row">
+                        @forelse($resources as $resource)
+                        <div class="col-lg-4 col-md-6 mb-4 resource-card" data-type="{{ $resource->type }}">
+                            <div class="card shadow-sm h-100">
+                                {{-- Thumbnail --}}
+                                @if($resource->type === 'video' && $resource->url)
+                                <img src="{{ youtubeThumbnail($resource->url) }}" class="card-img-top" alt="{{ $resource->title }}" style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                                @elseif($resource->type === 'article')
+                                <div class="card-img-top d-flex align-items-center justify-content-center text-white font-weight-bold" style="height: 180px; background: #6c757d; border-radius: 12px 12px 0 0;">
+                                    Article
+                                </div>
+                                @else
+                                <img src="{{ asset('template/img/default_resource.png') }}" class="card-img-top" alt="{{ $resource->title }}" style="height: 180px; object-fit: cover; border-radius: 12px 12px 0 0;">
+                                @endif
+
+                                {{-- Card Body --}}
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="card-title">{{ $resource->title }}</h5>
+                                    <h6 class="card-subtitle mb-2 text-muted text-capitalize">{{ $resource->type }}</h6>
+                                    <p class="card-text text-truncate-2">{{ $resource->description ?? 'No description provided.' }}</p>
+
+                                    @if($resource->description)
+                                    <button type="button" class="btn btn-link p-0 mt-1 mb-2 text-primary" data-toggle="modal" data-target="#resourceModal{{ $resource->id }}">
+                                        Read more
+                                    </button>
+                                    @endif
+
+                                    @if($resource->url)
+                                    <a href="{{ $resource->url }}" target="_blank" class="btn btn-primary btn-sm mt-auto">
+                                        <i class="fa fa-link"></i> Open Link
+                                    </a>
+                                    @endif
+
+                                    <p class="mt-2 text-muted small">
+                                        Uploaded by: {{ $resource->creator->name ?? 'Unknown' }} <br>
+                                        {{ $resource->created_at->format('F d, Y') }}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+
+                        {{-- Modal for full description --}}
+                        @if($resource->description)
+                        <div class="modal fade" id="resourceModal{{ $resource->id }}" tabindex="-1" aria-labelledby="resourceModalLabel{{ $resource->id }}" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered">
+                                <div class="modal-content">
+                                    <div class="modal-header">
+                                        <h5 class="modal-title" id="resourceModalLabel{{ $resource->id }}">{{ $resource->title }}</h5>
+                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                            <span aria-hidden="true">&times;</span>
+                                        </button>
+                                    </div>
+                                    <div class="modal-body">
+                                        {!! nl2br(e($resource->description)) !!}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        @endif
+                        @empty
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                No resources available at the moment.
+                            </div>
+                        </div>
+                        @endforelse
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+@endsection
+
+@push('style')
 <style>
-    body,
-    h1,
-    h2,
-    h3,
-    h4,
-    h5,
-    h6,
-    p,
-    a,
-    li {
-        font-family: 'Poppins', sans-serif;
-    }
-
-    h2 {
-        font-weight: 600;
-    }
-
-    p {
-        font-weight: 400;
-    }
-
     #resourcesHead {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
         border-radius: 12px !important;
+    }
+
+    .heading-hover {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: color 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+        font-weight: 700;
+    }
+
+    .heading-hover i {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .heading-hover:hover {
+        color: #1ab394;
+        transform: translateY(-2px);
+    }
+
+    .heading-hover:hover i {
+        transform: rotate(20deg);
+        color: #1ab394;
+    }
+
+    .card {
+        border-radius: 12px;
+        transition: box-shadow 0.3s ease;
+    }
+
+    .card-title {
+        color: #1ab394;
+        font-size: 0.9rem;
+    }
+
+    .card:hover {
+        box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
+    }
+
+    .text-truncate-2 {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+    }
+
+    .btn-group .btn {
+        color: #1ab394;
+        border: 1px solid #1ab394;
+        background-color: transparent;
+        transition: all 0.3s;
+    }
+
+    .btn-group .btn.active,
+    .btn-group .btn:hover {
+        background-color: #1ab394;
+        color: #fff;
+        border-color: #1ab394;
     }
 
     .ibox {
@@ -34,228 +252,24 @@
         border-radius: 12px !important;
     }
 
-    .ibox:hover {
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
-
-    .resource-thumb {
-        height: 10rem;
-        background: #f5f5f5;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-    }
-
-    .resource-thumb img {
-        max-width: 100%;
-        max-height: 100%;
-        object-fit: cover;
-        display: block;
-    }
-
-    .thumb-placeholder {
-        font-weight: bold;
-        color: #555;
-    }
-
-    .resource-info {
-        flex: 1;
-        padding: 0.5rem 1rem;
-        display: flex;
-        flex-direction: column;
-    }
-
-    .resource-title {
-        font-size: 1rem;
-        font-weight: bold;
-        margin: 0.25rem 0;
-    }
-
-    .resource-desc {
-        font-size: 0.85rem;
-        color: #666;
-        flex: 1;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-line-clamp: 3;
-        -webkit-box-orient: vertical;
-    }
-
-    .resource-actions {
-        padding: 0.5rem 1rem;
-        text-align: right;
-    }
-
-    .resource-card {
-        border: 1px solid #ccd3df;
-        transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
-        border-radius: 8px;
-    }
-
-    .resource-card:hover {
-        box-shadow: 0 4px 4px rgba(0, 0, 0, 0.1);
-        transform: scale(1.02);
-        border-color: #1ab394;
-    }
-
 </style>
+@endpush
 
-@section('body')
-<section class="animated fadeInDown">
-    <div class="m-b-md">
-        <div class="border-bottom white-bg page-heading" id="resourcesHead">
-            <div class="col-lg-12">
-                <h2>Resources</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('counselor.dashboard') }}">Dashboard</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <strong>Resources</strong>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
-    <div class="row">
-        <div class="col-lg-12">
-            <div class="ibox">
-                <div class="ibox-title d-flex justify-content-between align-items-center">
-                    <h3 class="font-bold">Resource Manager</h3>
-                    <button type="button" class="btn btn-primary" style="margin-right: -4rem;" data-toggle="modal" data-target="#addResourceModal">
-                        <i class="fa fa-plus"></i> Add New Resource
-                    </button>
-                </div>
-
-                <div class="ibox-content">
-                    <div class="row">
-                        @foreach($resources as $resource)
-                        <div class="col-lg-4 px-4">
-                            <div class="resource-card ibox">
-                                <div class="resource-thumb">
-                                    @if($resource->type == 'video')
-                                    @php
-                                    preg_match("/v=([a-zA-Z0-9_-]+)/", $resource->url, $matches);
-                                    $videoId = $matches[1] ?? null;
-                                    @endphp
-                                    @if($videoId)
-                                    <img src="https://img.youtube.com/vi/{{ $videoId }}/hqdefault.jpg" alt="{{ $resource->title }}">
-                                    @else
-                                    <div class="thumb-placeholder">Video</div>
-                                    @endif
-                                    @elseif($resource->type == 'tool')
-                                    <div class="thumb-placeholder">Tool</div>
-                                    @else
-                                    <div class="thumb-placeholder">Article</div>
-                                    @endif
-                                </div>
-
-                                <!-- Title / Description -->
-                                <div class="resource-info">
-                                    <small class="text-muted">{{ ucfirst($resource->type) }}</small>
-                                    <h5 class="resource-title">{{ $resource->title }}</h5>
-                                    <p class="resource-desc">{{ $resource->description }}</p>
-                                </div>
-
-                                <!-- Button -->
-                                <div class="resource-actions">
-                                    @if($resource->type == 'video')
-                                    <a href="{{ $resource->url }}" target="_blank" class="btn btn-xs btn-outline btn-primary">
-                                        Watch <i class="fa fa-long-arrow-right"></i>
-                                    </a>
-                                    @elseif($resource->type == 'tool')
-                                    <a href="{{ asset($resource->url) }}" target="_blank" class="btn btn-xs btn-outline btn-primary">
-                                        Open Tool <i class="fa fa-long-arrow-right"></i>
-                                    </a>
-                                    @elseif($resource->type == 'article')
-                                    <a href="{{ $resource->url }}" target="_blank" class="btn btn-xs btn-outline btn-primary">
-                                        Read Article <i class="fa fa-long-arrow-right"></i>
-                                    </a>
-                                    @endif
-                                </div>
-                            </div>
-                        </div>
-                        @endforeach
-
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-</section>
-
-<!-- Add Resource Modal -->
-<div class="modal fade" id="addResourceModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-
-            <div class="modal-header">
-                <h5 class="modal-title">Add New Resource</h5>
-                <button type="button" class="close" data-dismiss="modal"><span>&times;</span></button>
-            </div>
-
-            <form action="{{ route('counselor.resources.store') }}" method="POST" enctype="multipart/form-data">
-                @csrf
-                <div class="modal-body">
-                    <div class="form-group">
-                        <label>Title</label>
-                        <input type="text" name="title" class="form-control" required>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Description</label>
-                        <textarea name="description" class="form-control" rows="3" required></textarea>
-                    </div>
-
-                    <div class="form-group">
-                        <label>Type</label>
-                        <select name="type" class="form-control" id="resourceType" required>
-                            <option value="video">Video</option>
-                            <option value="tool">Self-help Tool</option>
-                            <option value="article">Article</option>
-                        </select>
-                    </div>
-
-                    <div class="form-group" id="resourceUrlGroup">
-                        <label>URL (for Video/Article)</label>
-                        <input type="url" name="url" class="form-control" placeholder="https://example.com">
-                    </div>
-
-                    <div class="form-group" id="resourceFileGroup" style="display:none;">
-                        <label>Upload Tool (PDF, DOCX)</label>
-                        <input type="file" name="file" class="form-control">
-                        <small class="form-text text-muted">Or provide a URL to an external form like Google Form.</small>
-                    </div>
-                </div>
-
-                <div class="modal-footer">
-                    <button type="submit" class="btn btn-success">Save Resource</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                </div>
-            </form>
-
-        </div>
-    </div>
-</div>
-@endsection
-
-@section('scripts')
+@push('scripts')
 <script>
-    // Toggle URL/file inputs based on type
-    $('#resourceType').change(function() {
-        var type = $(this).val();
-        if (type === 'tool') {
-            $('#resourceFileGroup').show();
-            $('#resourceUrlGroup').hide();
-        } else {
-            $('#resourceFileGroup').hide();
-            $('#resourceUrlGroup').show();
-        }
+    $(document).ready(function() {
+        $('.btn-group button').click(function() {
+            $(this).siblings().removeClass('active');
+            $(this).addClass('active');
+
+            var filter = $(this).data('filter');
+
+            $('.resource-card').each(function() {
+                if (filter === 'all') $(this).show();
+                else $(this).toggle($(this).data('type') === filter);
+            });
+        });
     });
 
 </script>
-@endsection
+@endpush

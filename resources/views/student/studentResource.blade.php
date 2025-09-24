@@ -107,6 +107,11 @@ return isset($matches[1]) ? "https://img.youtube.com/vi/{$matches[1]}/hqdefault.
         transition: box-shadow 0.3s ease;
     }
 
+    .card-title {
+        color: #1ab394;
+        font-size: 0.9rem;
+    }
+
     .card:hover {
         box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15);
     }
