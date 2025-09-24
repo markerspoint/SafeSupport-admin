@@ -52,15 +52,13 @@
                 @foreach($appointments as $appointment)
                 <div class="timeline-item">
                     <div class="timeline-point bg-primary"></div>
-                    <div class="timeline-content p-3 mb-3 card" style="margin-left: 1rem;">
+                    <div class="timeline-content p-3 mb-3 card {{ $appointment->status }}" style="margin-left: 1rem;">
                         <p><strong>Counselor:</strong> {{ $appointment->counselor->name }}</p>
                         <p><strong>Date:</strong> {{ $appointment->appointment_time->format('M d, Y') }}</p>
                         <p><strong>Time:</strong> {{ $appointment->appointment_time->format('h:i A') }}</p>
+                        <p><strong>Reason:</strong> {{ $appointment->reason }}</p>
                         <p><strong>Status:</strong>
-                            <span class="badge 
-                                    @if($appointment->status == 'pending') badge-warning
-                                    @elseif($appointment->status == 'rejected') badge-danger
-                                    @else badge-primary @endif">
+                            <span class="badge {{ $appointment->statusBadgeClass() }}">
                                 {{ ucfirst($appointment->status) }}
                             </span>
                         </p>
@@ -153,6 +151,23 @@
 {{-- style --}}
 @section('style')
 <style>
+    /* -------------------------
+   Variables (easy tuning)
+   ------------------------- */
+    :root {
+        --tab-card-w: 10rem;
+        --tab-card-h: 6.2rem;
+        --tab-card-gap: 1rem;
+        --tab-card-radius: 1rem;
+        --tab-card-padding: 1rem 1.25rem;
+        --tab-card-color: #1ab394;
+        --tab-card-bg: #ffffff;
+        --tab-card-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.08);
+    }
+
+    /* -------------------------
+   Base / typography
+   ------------------------- */
     body,
     h1,
     h2,
@@ -176,31 +191,34 @@
         font-weight: 400;
     }
 
+    /* -------------------------
+   Existing components left intact
+   ------------------------- */
     #dashHead,
     .ibox,
     .ibox-content {
         overflow: hidden;
         border-radius: 1rem;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        transition: box-shadow .3s ease, transform .3s ease;
     }
 
     .ibox:hover {
-        box-shadow: 0 0.375rem 0.625rem rgba(0, 0, 0, 0.1);
+        box-shadow: 0 .375rem .625rem rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
 
-    /* Timeline */
+    /* Timeline (kept as-is) */
     .timeline {
-        border-left: 0.1875rem solid #1ab394;
+        border-left: .1875rem solid var(--tab-card-color);
         margin-left: 1.25rem;
         padding-left: 1.25rem;
     }
 
     .timeline-content {
         border: 1px solid #e4e7ec;
-        background-color: #ffffff;
-        border-radius: 0.75rem;
-        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.05);
+        background: #fff;
+        border-radius: .75rem;
+        box-shadow: 0 .25rem .625rem rgba(0, 0, 0, 0.05);
         padding: 1rem;
     }
 
@@ -209,82 +227,130 @@
     }
 
     .timeline-point {
-        width: 0.75rem;
-        height: 0.75rem;
+        width: .75rem;
+        height: .75rem;
         border-radius: 50%;
         position: absolute;
-        left: -0.5625rem;
-        top: 0.625rem;
+        left: -.5625rem;
+        top: .625rem;
     }
 
-    /* Tab wrapper */
+    /* -------------------------
+   Tab wrapper
+   ------------------------- */
     .tab-wrapper {
-        background-color: #ffffff;
-        border-radius: 0.75rem;
-        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.05);
+        background: var(--tab-card-bg);
+        border-radius: .75rem;
+        box-shadow: 0 .25rem .625rem rgba(0, 0, 0, 0.05);
         padding: 1rem;
     }
 
-    /* Nav tabs */
+    .timeline-content.pending {
+        background-color: #fff8e1 !important;
+        border-color: #ffe082 !important;
+    }
+
+    .timeline-content.approved {
+        background-color: #e8f5e9;
+        border-color: #81c784;
+    }
+
+    .timeline-content.rejected {
+        background-color: #ffebee;
+        border-color: #e57373;
+    }
+
+    .timeline-content.cancelled {
+        background-color: #eceff1;
+        border-color: #b0bec5;
+    }
+
+    /* -------------------------
+   Nav-tabs container (desktop: flex, mobile: grid)
+   ------------------------- */
     .nav-tabs {
-        border-bottom: none;
-        border-radius: 0.75rem;
-        display: flex;
+        display: flex !important;
         flex-wrap: wrap;
-        justify-content: space-between;
-        gap: 1rem;
+        gap: var(--tab-card-gap);
+        align-items: stretch;
+        justify-content: flex-start;
+        border-bottom: none;
+        padding: 0;
+        margin: 0;
     }
 
-    .nav-tabs .nav-link {
-        border: none;
-        font-weight: 500;
-        color: #495057;
+    .nav-tabs.nav-fill .nav-item,
+    .nav-tabs .nav-item {
+        flex: 0 0 auto;
     }
 
-    /* Card-style tabs (vertical layout) */
+    /* -------------------------
+   Tab card (fixed size)
+   ------------------------- */
     .nav-tabs .nav-link.tab-card {
-        background: #fff;
-        border-radius: 1rem;
-        box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.08);
-        margin: 0.25rem;
-        padding: 1.25rem 1.5rem;
-        font-weight: 500;
-        color: #495057;
-        transition: all 0.3s ease;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        justify-content: center;
+        box-sizing: border-box;
+        background: var(--tab-card-bg);
+        border-radius: var(--tab-card-radius);
+        box-shadow: var(--tab-card-shadow);
+        padding: var(--tab-card-padding);
+        font-weight: 700;
+        color: var(--tab-card-color);
         text-align: center;
-        min-width: 8rem;
+
+        width: var(--tab-card-w) !important;
+        height: var(--tab-card-h) !important;
+
+        transition: transform .18s ease, box-shadow .18s ease, background .18s ease;
     }
 
-    /* Tab icon */
+    /* Icon (top) */
     .nav-tabs .nav-link.tab-card i {
         font-size: 2rem;
-        color: #1ab394;
-        margin-bottom: 0.625rem;
+        color: var(--tab-card-color);
+        line-height: 1;
+        display: block;
+        margin-top: .2rem;
+        flex-shrink: 0;
     }
 
-    /* Hover effect */
+    /* hover */
     .nav-tabs .nav-link.tab-card:hover {
         background: #f8f9fa;
-        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
+        transform: translateY(-.125rem);
+        box-shadow: 0 .25rem .625rem rgba(0, 0, 0, 0.12);
     }
 
-    /* Active tab */
+    /* active tab */
     .nav-tabs .nav-link.tab-card.active {
-        background: #1ab394;
+        background: var(--tab-card-color);
         color: #fff;
-        font-weight: 600;
-        box-shadow: 0 0.25rem 0.75rem rgba(26, 179, 148, 0.3);
+        box-shadow: 0 .25rem .75rem rgba(26, 179, 148, 0.28);
     }
 
     .nav-tabs .nav-link.tab-card.active i {
         color: #fff;
     }
+
+    /* -------------------------
+   Tab: 2x2 grid at <=480px
+   ------------------------- */
+    @media (max-width: 768px) {
+        :root {
+            --tab-card-w: auto;
+            --tab-card-h: 8rem;
+        }
+
+        .nav-tabs {
+            display: grid !important;
+            grid-template-columns: repeat(2, 1fr) !important;
+            justify-content: stretch !important;
+        }
+
+    }
+
 </style>
 @endsection
+
 
 
 
@@ -292,7 +358,6 @@
 @section('scripts')
 <script>
     $(document).ready(function() {
-
         // Appointment booking AJAX (already working)
         $('#bookAppointmentBtn').click(function() {
             var form = $('#appointmentForm');
@@ -310,8 +375,11 @@
                             <p><strong>Counselor:</strong> ${response.counselor_name}</p>
                             <p><strong>Date:</strong> ${response.date}</p>
                             <p><strong>Time:</strong> ${response.time}</p>
+                            <p><strong>Reason:</strong> ${response.reason}</p>
                             <p><strong>Status:</strong>
-                                <span class="badge badge-warning">${response.status}</span>
+                                <span class="badge {{ $appointment->statusBadgeClass() }}">
+                                    {{ ucfirst($appointment->status) }}
+                                </span>
                             </p>
                         </div>
                     </div>
@@ -328,18 +396,16 @@
 
         // AJAX pagination
         $(document).on('click', '.pagination a', function(e) {
-            e.preventDefault(); // prevent full page reload
+            e.preventDefault();
             var url = $(this).attr('href');
 
             $.ajax({
                 url: url
                 , type: 'GET'
                 , success: function(response) {
-                    // Replace the timeline container with new content
                     var html = $(response).find('.timeline').html();
                     $('.timeline').html(html);
 
-                    // Replace pagination links
                     var pagination = $(response).find('.pagination').html();
                     $('.pagination').html(pagination);
                 }
