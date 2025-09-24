@@ -29,7 +29,7 @@ class LoginController extends Controller
             $user = Auth::user();
 
             if ($user->role === 'student') {
-                return redirect()->route('student.appointment');
+                return redirect()->route('student.dashboard');
             } elseif ($user->role === 'counselor') {
                 return redirect()->route('counselor.dashboard');
             } else {

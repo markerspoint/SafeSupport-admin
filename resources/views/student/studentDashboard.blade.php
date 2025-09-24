@@ -3,46 +3,35 @@
 @section('body')
 
 <section>
-    <div class="m-b-md">
-        <div class="border-bottom white-bg page-heading" id="dashHead">
-            <div class="col-lg-12">
-                <h2>Dashboard</h2>
-                <ol class="breadcrumb">
-                    <li class="breadcrumb-item">
-                        <a href="{{ route('student.dashboard') }}">Home</a>
-                    </li>
-                    <li class="breadcrumb-item active">
-                        <strong>Dashboard</strong>
-                    </li>
-                </ol>
-            </div>
-        </div>
-    </div>
-
     {{-- tabs --}}
     <div class="mb-4 tab-wrapper p-3">
-        <ul class="nav nav-tabs" id="dashboardTabs" role="tablist">
+        <ul class="nav nav-tabs nav-fill" id="dashboardTabs" role="tablist">
             <li class="nav-item">
-                <a class="nav-link active" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab" aria-controls="appointments" aria-selected="true">
-                    Appointments
+                <a class="nav-link tab-card active" id="appointments-tab" data-toggle="tab" href="#appointments" role="tab">
+                    <i class="fa fa-calendar fa-2x mb-2"></i></i>
+
+                    <div>Appointments</div>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="resources-tab" data-toggle="tab" href="#resources" role="tab" aria-controls="resources" aria-selected="false">
-                    Resources
+                <a class="nav-link tab-card" id="resources-tab" data-toggle="tab" href="#resources" role="tab">
+                    <i class="fa fa-book fa-2x mb-2"></i></i>
+                    <div>Resources</div>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#profile" role="tab" aria-controls="profile" aria-selected="false">
-                    Profile
+                <a class="nav-link tab-card" id="profile-tab" data-toggle="tab" href="#profile" role="tab">
+                    <i class="fa fa-user fa-2x mb-2"></i>
+                    <div>Profile</div>
                 </a>
             </li>
 
             <li class="nav-item">
-                <a class="nav-link" id="profile-tab" data-toggle="tab" href="#calendar" role="tab" aria-controls="profile" aria-selected="false">
-                    Counselor Schedule
+                <a class="nav-link tab-card" id="calendar-tab" data-toggle="tab" href="#calendar" role="tab">
+                    <i class="fa fa-clock-o fa-2x mb-2"></i>
+                    <div>Counselor Schedule</div>
                 </a>
             </li>
         </ul>
@@ -63,7 +52,7 @@
                 @foreach($appointments as $appointment)
                 <div class="timeline-item">
                     <div class="timeline-point bg-primary"></div>
-                    <div class="timeline-content p-3 mb-3 card" style="margin-left: 2rem;">
+                    <div class="timeline-content p-3 mb-3 card" style="margin-left: 1rem;">
                         <p><strong>Counselor:</strong> {{ $appointment->counselor->name }}</p>
                         <p><strong>Date:</strong> {{ $appointment->appointment_time->format('M d, Y') }}</p>
                         <p><strong>Time:</strong> {{ $appointment->appointment_time->format('h:i A') }}</p>
@@ -98,6 +87,14 @@
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
             <div class="mt-3">
                 <h3>Profile Section</h3>
+                <p>Here you can show student profile info or settings.</p>
+            </div>
+        </div>
+
+        <!-- Profile Tab -->
+        <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
+            <div class="mt-3">
+                <h3>calendar Section</h3>
                 <p>Here you can show student profile info or settings.</p>
             </div>
         </div>
@@ -167,6 +164,8 @@
     a,
     li {
         font-family: 'Poppins', sans-serif;
+        margin: 0;
+        padding: 0;
     }
 
     h2 {
@@ -177,40 +176,32 @@
         font-weight: 400;
     }
 
-    #dashHead {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    .ibox {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
+    #dashHead,
+    .ibox,
     .ibox-content {
+        overflow: hidden;
+        border-radius: 1rem;
         transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
     }
 
     .ibox:hover {
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        box-shadow: 0 0.375rem 0.625rem rgba(0, 0, 0, 0.1);
         cursor: pointer;
     }
 
     /* Timeline */
     .timeline {
-        border-left: 3px solid #1ab394;
-        margin-left: 20px;
-        padding-left: 20px;
+        border-left: 0.1875rem solid #1ab394;
+        margin-left: 1.25rem;
+        padding-left: 1.25rem;
     }
 
     .timeline-content {
         border: 1px solid #e4e7ec;
         background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05) !important;
+        border-radius: 0.75rem;
+        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.05);
+        padding: 1rem;
     }
 
     .timeline-item {
@@ -218,41 +209,83 @@
     }
 
     .timeline-point {
-        width: 12px;
-        height: 12px;
+        width: 0.75rem;
+        height: 0.75rem;
         border-radius: 50%;
         position: absolute;
-        left: -9px;
-        top: 10px;
+        left: -0.5625rem;
+        top: 0.625rem;
     }
 
-    /* tabs */
+    /* Tab wrapper */
     .tab-wrapper {
         background-color: #ffffff;
-        border-radius: 12px;
-        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.05);
+        border-radius: 0.75rem;
+        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.05);
+        padding: 1rem;
     }
 
+    /* Nav tabs */
     .nav-tabs {
         border-bottom: none;
-        border-radius: 12px;
-    }
-
-    .nav-tabs .nav-item.show .nav-link,
-    .nav-tabs .nav-link.active {
-        background-color: #eeeeee;
-        border-radius: 12px 12px 0 0;
+        border-radius: 0.75rem;
+        display: flex;
+        flex-wrap: wrap;
+        justify-content: space-between;
+        gap: 1rem;
     }
 
     .nav-tabs .nav-link {
         border: none;
-        margin-right: 5px;
         font-weight: 500;
         color: #495057;
     }
 
+    /* Card-style tabs (vertical layout) */
+    .nav-tabs .nav-link.tab-card {
+        background: #fff;
+        border-radius: 1rem;
+        box-shadow: 0 0.125rem 0.375rem rgba(0, 0, 0, 0.08);
+        margin: 0.25rem;
+        padding: 1.25rem 1.5rem;
+        font-weight: 500;
+        color: #495057;
+        transition: all 0.3s ease;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        text-align: center;
+        min-width: 8rem;
+    }
+
+    /* Tab icon */
+    .nav-tabs .nav-link.tab-card i {
+        font-size: 2rem;
+        color: #1ab394;
+        margin-bottom: 0.625rem;
+    }
+
+    /* Hover effect */
+    .nav-tabs .nav-link.tab-card:hover {
+        background: #f8f9fa;
+        box-shadow: 0 0.25rem 0.625rem rgba(0, 0, 0, 0.12);
+    }
+
+    /* Active tab */
+    .nav-tabs .nav-link.tab-card.active {
+        background: #1ab394;
+        color: #fff;
+        font-weight: 600;
+        box-shadow: 0 0.25rem 0.75rem rgba(26, 179, 148, 0.3);
+    }
+
+    .nav-tabs .nav-link.tab-card.active i {
+        color: #fff;
+    }
 </style>
 @endsection
+
 
 
 {{-- script --}}
@@ -273,7 +306,7 @@
                     var newTimelineItem = `
                     <div class="timeline-item">
                         <div class="timeline-point bg-primary"></div>
-                        <div class="timeline-content p-3 mb-3 card" style="margin-left: 2rem;">
+                        <div class="timeline-content p-3 mb-3 card" style="margin-left: 1rem;">
                             <p><strong>Counselor:</strong> ${response.counselor_name}</p>
                             <p><strong>Date:</strong> ${response.date}</p>
                             <p><strong>Time:</strong> ${response.time}</p>

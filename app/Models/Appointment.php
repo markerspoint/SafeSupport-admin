@@ -17,7 +17,7 @@ class Appointment extends Model
         'notes',
     ];
 
-       protected $casts = [
+    protected $casts = [
         'appointment_time' => 'datetime',
     ];
 
@@ -31,4 +31,15 @@ class Appointment extends Model
     {
         return $this->belongsTo(User::class, 'counselor_id');
     }
+
+    public function statusBadgeClass()
+    {
+        return match ($this->status) {
+            'pending' => 'badge-warning',
+            'rejected' => 'badge-danger',
+            'cancelled' => 'badge-secondary',
+            default => 'badge-primary',
+        };
+    }
+
 }

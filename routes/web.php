@@ -49,10 +49,13 @@ Route::middleware(['auth'])->group(function () {
     // Route::get('/student/appointments', [StudentAppointmentController::class, 'index'])->name('student.appointments.index');
     // Route::post('/student/appointments', [StudentAppointmentController::class, 'store'])->name('student.appointments.store');
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
+    Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
     Route::post('/student/dashboard/appointments', [StudentDashboardController::class, 'store'])->name('student.dashboard.store');
- 
+    Route::get('/student/dashboard/appointments', [StudentDashboardController::class, 'ajaxAppointments'])->name('student.dashboard.appointments');
+    Route::delete('/student/appointments/delete/{appointment}', [StudentDashboardController::class, 'destroy'])->name('student.appointments.destroy');
 });
+
 
 
 Route::middleware(['auth', 'role:counselor'])->prefix('counselor')->name('counselor.')->group(function () {

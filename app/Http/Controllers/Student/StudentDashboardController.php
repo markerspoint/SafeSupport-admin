@@ -17,7 +17,7 @@ class StudentDashboardController extends Controller
             ->appointments()
             ->with('counselor')
             ->orderBy('created_at', 'desc')
-            ->paginate(4);
+            ->paginate(2);
 
         $counselors = \App\Models\User::where('role', 'counselor')->get();
 
