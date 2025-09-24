@@ -44,10 +44,6 @@ Route::middleware(['auth'])->group(function () {
     Route::post('/counselor/appointments/update', [CounselorAppointmentController::class, 'updateAppointment'])->name('counselor.appointments.update');
     Route::get('/counselor/schedule', [CounselorScheduleController::class, 'index'])->name('counselor.schedule');
 
-    // Route::get('/student/appointment', [StudentAppointmentController::class, 'index'])->name('student.appointment');
-    // Route::get('/student/appointments', [StudentAppointmentController::class, 'appointments'])->name('student.appointments');
-    // Route::get('/student/appointments', [StudentAppointmentController::class, 'index'])->name('student.appointments.index');
-    // Route::post('/student/appointments', [StudentAppointmentController::class, 'store'])->name('student.appointments.store');
     Route::get('/student/profile', [StudentProfileController::class, 'index'])->name('student.profile');
     Route::put('/student/profile', [StudentProfileController::class, 'update'])->name('student.profile.update');
     Route::get('/student/dashboard', [StudentDashboardController::class, 'index'])->name('student.dashboard');
@@ -55,7 +51,6 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/student/dashboard/appointments', [StudentDashboardController::class, 'ajaxAppointments'])->name('student.dashboard.appointments');
     Route::delete('/student/dashboard/appointments/{id}', [StudentDashboardController::class, 'destroy'])->name('student.dashboard.destroy');
 });
-
 
 
 Route::middleware(['auth', 'role:counselor'])->prefix('counselor')->name('counselor.')->group(function () {
@@ -81,7 +76,6 @@ Route::post('/register', [RegisterController::class, 'register'])->name('registe
 Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
 Route::post('/login', [LoginController::class, 'login'])->name('login.submit');
 Route::post('/logout', [LoginController::class, 'logout'])->name('logout'); // student/counselor logout
-
 
 // Admin login (separate page)
 Route::get('/admin/login', [AdminLoginController::class, 'showLoginForm'])->name('admin.login');
