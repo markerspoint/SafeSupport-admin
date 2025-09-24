@@ -81,10 +81,7 @@
         </div>
 
         <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-            <div class="mt-3">
-                <h3>Profile Section</h3>
-                <p>Here you can show student profile info or settings.</p>
-            </div>
+            @include('student.studentProfile')
         </div>
 
         <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
@@ -95,7 +92,6 @@
         </div>
 
 </section>
-
 <!-- Appointment Modal -->
 <div class="modal fade mt-5" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -144,9 +140,8 @@
 </div>
 @endsection
 
-
 {{-- style --}}
-@section('style')
+@push('style')
 <style>
     :root {
         --tab-card-w: 10rem;
@@ -298,6 +293,10 @@
         flex-shrink: 0;
     }
 
+    .tab-card {
+        border: #1ab394 !important;
+    }
+
     /* hover */
     .nav-tabs .nav-link.tab-card:hover {
         background: #f8f9fa;
@@ -333,9 +332,9 @@
     }
 
 </style>
-@endsection
+@endpush
 
-{{-- script --}}
+{{-- script appointment --}}
 @section('scripts')
 <script>
     $('#bookAppointmentBtn').on('click', function() {
@@ -446,6 +445,32 @@
     $(document).ready(function() {
         var today = new Date().toISOString().split('T')[0];
         $('input[name="date"]').attr('min', today);
+    });
+
+</script>
+@endsection
+
+{{-- profile script --}}
+@section('scripts')
+<script>
+    // Only attach JS when profile tab is activated
+    $('a[data-toggle="tab"][href="#profile"]').on('shown.bs.tab', function() {
+        // detach previous handlers to avoid duplicates
+        $('#profileForm').off('submit').on('submit', function(e) {
+            e.preventDefault();
+
+            $.ajax({
+                url: $(this).attr('action')
+                , type: 'PUT'
+                , data: $(this).serialize()
+                , success: function(response) {
+                    Swal.fire('Success', 'Profile updated!', 'success');
+                }
+                , error: function(xhr) {
+                    Swal.fire('Error', 'Could not update profile.', 'error');
+                }
+            });
+        });
     });
 </script>
 @endsection

@@ -1,35 +1,3 @@
-<style>
-    #profileHead {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 0 !important;
-    }
-
-    #studentProfile .ibox-content {
-        border-radius: 0 !important;
-    }
-
-    #studentProfile .ibox {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    #studentProfile .ibox:hover {
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
-
-    #studentProfile .ibox-title {
-        background-color: #1ab394;
-    }
-
-    #studentProfile .ibox-title h5 {
-        color: #ffffff !important;
-    }
-
-</style>
-
 <div id="studentProfile" class="row animated fadeInRight">
     <div class="col-lg-4">
         <div class="ibox">
@@ -77,7 +45,7 @@
                 <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
 
-                <form action="{{ route('student.profile.update') }}" method="POST">
+                <form id="profileForm" action="{{ route('student.profile.update') }}" method="POST">
                     @csrf
                     @method('PUT')
 
@@ -103,32 +71,28 @@
 
                     <button type="submit" class="btn btn-primary mt-4">Update Profile</button>
                 </form>
-
             </div>
         </div>
     </div>
 </div>
 
-@section('scripts')
-{{-- <script>
-    $(document).ready(function() {
-        $('#profileForm').submit(function(e) {
-            e.preventDefault();
+@push('style')
+<style>
+    #profileHead {
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px !important;
+    }
 
-            $.ajax({
-                url: $(this).attr('action')
-                , type: 'PUT'
-                , data: $(this).serialize()
-                , success: function(response) {
-                    Swal.fire('Success', 'Profile updated!', 'success');
-                }
-                , error: function(xhr) {
-                    Swal.fire('Error', 'Could not update profile.', 'error');
-                }
-            });
-        });
-        
-    });
+    .ibox {
+        overflow: hidden;
+        transition: box-shadow 0.3s ease, transform 0.3s ease;
+        border-radius: 12px !important;
+    }
 
-</script> --}}
-@endsection
+    .ibox:hover {
+        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
+        cursor: pointer;
+    }
+</style>
+@endpush
