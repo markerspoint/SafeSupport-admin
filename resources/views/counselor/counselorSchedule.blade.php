@@ -1,12 +1,12 @@
 @extends('layouts.counselor-master')
 
 @section('body')
-<section class="animated fadeInDown">
+<section class="animated fadeInRight">
 
     <div class="m-b-md">
         <div class="border-bottom white-bg page-heading" id="schedHead">
             <div class="col-lg-12">
-                <h2>Schedule</h2>
+                <h2 class="heading-hover"><i class="fa fa-calendar"></i> Schedule</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{{ route('counselor.dashboard') }}">Dashboard</a>
@@ -18,7 +18,6 @@
             </div>
         </div>
     </div>
-
 
     <div class="row">
         <div class="col-lg-3">
@@ -77,7 +76,7 @@
 </section>
 @endsection
 
-@section('style')
+@push('style')
 <style>
     #schedHead {
         overflow: hidden;
@@ -114,10 +113,32 @@
         border-color: #1ab394 !important;
     }
 
-</style>
-@endsection
+    .heading-hover {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 700;
+        transition: color 0.3s ease, transform 0.3s ease;
+    }
 
-@section('scripts')
+    .heading-hover i {
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .heading-hover:hover {
+        color: #1ab394;
+        transform: translateY(-2px);
+    }
+
+    .heading-hover:hover i {
+        transform: rotate(20deg);
+        color: #1ab394;
+    }
+
+</style>
+@endpush
+
+@push('scripts')
 <script>
     $(document).ready(function() {
 
@@ -141,9 +162,11 @@
             // make the event draggable using jQuery UI
             $(this).draggable({
                 zIndex: 1111999
-                , revert: true, // will cause the event to go back to its
-                revertDuration: 0 //  original position after the drag
+                , revert: true, // return to original position if not dropped
+                revertDuration: 0
+                , helper: "clone" // create a clone while dragging
             });
+
 
         });
 
@@ -221,4 +244,4 @@
     });
 
 </script>
-@endsection
+@endpush

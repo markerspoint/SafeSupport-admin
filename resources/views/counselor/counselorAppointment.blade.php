@@ -6,7 +6,7 @@
     <div class="m-b-md">
         <div class="border-bottom white-bg page-heading" id="appointmentHead">
             <div class="col-lg-12">
-                <h2>Appointment</h2>
+                <h2 class="appointment-title"><i class="fa fa-suitcase"></i> Appointment</h2>
                 <ol class="breadcrumb">
                     <li class="breadcrumb-item">
                         <a href="{{ route('counselor.dashboard') }}">Dashboard</a>
@@ -112,6 +112,14 @@
 
 @push('style')
 <style>
+    body {
+        font-family: 'Poppins', sans-serif !important;
+    }
+
+    h2 {
+        font-weight: 700;
+    }
+
     #appointmentHead {
         overflow: hidden;
         border-radius: 12px !important;
@@ -125,6 +133,35 @@
     th,
     td {
         color: #676a6c;
+        font-size: 1rem;
+    }
+
+    th {
+        font-weight: 600;
+    }
+
+    .appointment-title {
+        display: inline-flex;
+        align-items: center;
+        transition: color 0.3s ease, transform 0.3s ease;
+        cursor: pointer;
+        color: #676a6c;
+        /* default text color */
+    }
+
+    .appointment-title i {
+        margin-right: 8px;
+        transition: transform 0.3s ease, color 0.3s ease;
+    }
+
+    .appointment-title:hover {
+        color: #1ab394;
+        transform: scale(1.05);
+    }
+
+    .appointment-title:hover i {
+        color: #1ab394;
+        transform: rotate(15deg);
     }
 
 </style>
