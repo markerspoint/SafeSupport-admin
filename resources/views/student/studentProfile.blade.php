@@ -1,46 +1,31 @@
-<div id="studentProfile" class="row animated fadeInRight">
-    <div class="col-lg-4">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Profile Detail</h5>
+<div id="studentProfile" class="row animated fadeInRight mt-4">
+
+    {{-- Profile Detail --}}
+    <div class="col-lg-4 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header text-center bg-white">
+                <h5 class="mb-0">Profile Detail</h5>
             </div>
-            <div>
-                <div class="ibox-content no-padding border-left-right text-center">
-                    <img alt="Profile Image" class="img-fluid rounded-circle shadow-sm" style="width: 200px; height: 200px; object-fit: cover;" src="{{ asset('template/img/profile_default.jpg') }}">
-                </div>
-                <div class="ibox-content profile-content">
-                    <h4><strong>{{ auth()->user()->name }}</strong></h4>
-                    <p><i class="fa fa-envelope"></i> {{ auth()->user()->email }}</p>
-                    <p><i class="fa fa-calendar"></i> Joined: {{ auth()->user()->created_at->format('F d, Y') }}</p>
+            <div class="card-body text-center">
+                <img src="{{ asset('template/img/profile_default.jpg') }}" alt="Profile Image" class="rounded-circle shadow-sm mb-3" style="width: 180px; height: 180px; object-fit: cover;">
 
-                    <h5>About me</h5>
-                    <p>This is your profile. You can add more details later.</p>
+                <h4 class="font-weight-bold">{{ auth()->user()->name }}</h4>
+                <p class="mb-1"><i class="fa fa-envelope"></i> {{ auth()->user()->email }}</p>
+                <p class="mb-3"><i class="fa fa-calendar"></i> Joined: {{ auth()->user()->created_at->format('F d, Y') }}</p>
 
-                    <div class="user-button">
-                        <div class="row">
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-primary btn-sm btn-block">
-                                    <i class="fa fa-envelope"></i> Send Message
-                                </button>
-                            </div>
-                            <div class="col-md-6">
-                                <button type="button" class="btn btn-default btn-sm btn-block">
-                                    <i class="fa fa-coffee"></i> Buy a coffee
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                <h6>About Me</h6>
+                <p class="text-muted">This is your profile. You can add more details later.</p>
             </div>
         </div>
     </div>
 
-    <div class="col-lg-8">
-        <div class="ibox">
-            <div class="ibox-title">
-                <h5>Edit Profile</h5>
+    {{-- Edit Profile --}}
+    <div class="col-lg-8 mb-4">
+        <div class="card shadow-sm">
+            <div class="card-header bg-white">
+                <h5 class="mb-0">Edit Profile</h5>
             </div>
-            <div class="ibox-content profile-content">
+            <div class="card-body">
                 @if(session('success'))
                 <div class="alert alert-success">{{ session('success') }}</div>
                 @endif
@@ -49,62 +34,53 @@
                     @csrf
                     @method('PUT')
 
-                    <div class="form-group">
-                        <label for="name">Full Name</label>
+                    <div class="mb-3">
+                        <label for="name" class="form-label">Full Name</label>
                         <input type="text" name="name" id="name" class="form-control" value="{{ old('name', auth()->user()->name) }}" required>
                     </div>
 
-                    <div class="form-group mt-3">
-                        <label for="email">Email Address</label>
+                    <div class="mb-3">
+                        <label for="email" class="form-label">Email Address</label>
                         <input type="email" name="email" id="email" class="form-control" value="{{ old('email', auth()->user()->email) }}" required>
                     </div>
 
-                    <div class="form-group mt-3">
-                        <label for="password">New Password (leave blank to keep current)</label>
-                        <input type="password" name="password" placeholder="*****" id="password" class="form-control">
+                    <div class="mb-3">
+                        <label for="password" class="form-label">New Password (leave blank to keep current)</label>
+                        <input type="password" name="password" id="password" placeholder="*****" class="form-control">
                     </div>
 
-                    <div class="form-group mt-3">
-                        <label for="password_confirmation">Confirm New Password</label>
-                        <input type="password" name="password_confirmation" placeholder="*****" id="password_confirmation" class="form-control">
+                    <div class="mb-3">
+                        <label for="password_confirmation" class="form-label">Confirm New Password</label>
+                        <input type="password" name="password_confirmation" id="password_confirmation" placeholder="*****" class="form-control">
                     </div>
 
-                    <button type="submit" class="btn btn-primary mt-4">Update Profile</button>
+                    <button type="submit" class="btn btn-primary">Update Profile</button>
                 </form>
             </div>
         </div>
     </div>
+
 </div>
 
 @push('style')
 <style>
-    #profileHead {
+    /* Remove inner border-radius and add shadows to cards */
+    #studentProfile .card {
+        border-radius: 12px;
         overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
+        transition: box-shadow 0.3s ease;
     }
 
-    .ibox-content.no-padding.border-left-right {
-        border: none !important;
-        border-radius: 0 !important;
+    #studentProfile .card:hover {
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
     }
 
-    .ibox-content.profile-content {
-        border: none !important;
-        border-radius: 0 !important;
+    /* Responsive adjustments */
+    @media (max-width: 992px) {
+        #studentProfile .d-flex.gap-2 {
+            flex-direction: column;
+        }
     }
-
-    .ibox {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    .ibox:hover {
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
-
 </style>
 @endpush
 
@@ -112,23 +88,23 @@
 {{-- profile script --}}
 @push('scripts')
 <script>
-    $('a[data-toggle="tab"][href="#profile"]').on('shown.bs.tab', function() {
-        $('#profileForm').off('submit').on('submit', function(e) {
-            e.preventDefault();
+$(document).ready(function() {
+    $('#profileForm').on('submit', function(e) {
+        e.preventDefault();
+        var $form = $(this);
 
-            $.ajax({
-                url: $(this).attr('action'),
-                type: 'PUT',
-                data: $(this).serialize(),
-                success: function(response) {
-                    Swal.fire('Success', 'Profile updated!', 'success');
-                },
-                error: function(xhr) {
-                    Swal.fire('Error', 'Could not update profile.', 'error');
-                }
-            });
+        $.ajax({
+            url: $form.attr('action'),
+            type: 'PUT',
+            data: $form.serialize(),
+            success: function(response) {
+                Swal.fire('Success', 'Profile updated!', 'success');
+            },
+            error: function(xhr) {
+                Swal.fire('Error', 'Could not update profile.', 'error');
+            }
         });
     });
+});
 </script>
 @endpush
-

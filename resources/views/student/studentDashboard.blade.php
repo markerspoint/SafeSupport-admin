@@ -39,7 +39,7 @@
 
         <div class="tab-content" id="dashboardTabsContent">
             <!-- Appointments Tab -->
-            <div class="tab-pane fade show active ibox-content mb-4" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
+            <div class="tab-pane active ibox-content mb-4 animated fadeInRight" id="appointments" role="tabpanel" aria-labelledby="appointments-tab">
 
                 <div class="mb-4 mt-3">
                     <button type="button" class="btn btn-primary" style="border-radius: 12px;" data-toggle="modal" data-target="#appointmentModal">
@@ -84,7 +84,9 @@
             </div>
 
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                @include('student.studentProfile')
+                <div class="ibox-content">
+                    @include('student.studentProfile')
+                </div>
             </div>
 
             <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
@@ -93,7 +95,7 @@
                     <p>Here you can show student profile info or settings.</p>
                 </div>
             </div>
-
+        </div>   
     </section>
     <!-- Appointment Modal -->
     <div class="modal fade mt-5" id="appointmentModal" tabindex="-1" role="dialog" aria-labelledby="appointmentModalLabel" aria-hidden="true">
