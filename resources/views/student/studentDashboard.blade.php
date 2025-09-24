@@ -77,23 +77,19 @@
             </div>
 
             <div class="tab-pane fade" id="resources" role="tabpanel" aria-labelledby="resources-tab">
-                <div class="mt-3">
-                    <h3>Resources</h3>
-                    <p>List videos, articles, and self-help tools here.</p>
+                <div class="ibox-content mb-4">
+                    @include('student.studentResource')
                 </div>
             </div>
 
             <div class="tab-pane fade" id="profile" role="tabpanel" aria-labelledby="profile-tab">
-                <div class="ibox-content">
+                <div class="ibox-content mb-4">
                     @include('student.studentProfile')
                 </div>
             </div>
 
             <div class="tab-pane fade" id="calendar" role="tabpanel" aria-labelledby="calendar-tab">
-                <div class="mt-3">
-                    <h3>calendar Section</h3>
-                    <p>Here you can show student profile info or settings.</p>
-                </div>
+                <div><h1>calendar</h1></div>
             </div>
         </div>   
     </section>

@@ -14,6 +14,12 @@ class ResourceController extends Controller
         return view('counselor.counselorResource', compact('resources'));
     }
 
+    public function studentIndex()
+    {
+        $resources = Resource::latest()->get(); // all resources
+        return view('student.studentResource', compact('resources'));
+    }
+
     public function create()
     {
         return view('counselor.counselorResourceCreate');
