@@ -1,34 +1,8 @@
 @extends('layouts.counselor-master')
 
-<style>
-    #appointmentHead {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    .ibox {
-        overflow: hidden;
-        transition: box-shadow 0.3s ease, transform 0.3s ease;
-        border-radius: 12px !important;
-    }
-
-    .ibox:hover {
-        box-shadow: 0 6px 10px rgba(0, 0, 0, 0.1);
-        cursor: pointer;
-    }
-
-    th,
-    td {
-        color: #676a6c;
-    }
-
-</style>
-
 @section('body')
 
-<section class="animated fadeInDown">
-
+<section class="animated fadeInRight">
     <div class="m-b-md">
         <div class="border-bottom white-bg page-heading" id="appointmentHead">
             <div class="col-lg-12">
@@ -45,7 +19,6 @@
         </div>
     </div>
 
-
     <div class="row">
         <div class="col-lg-12">
             <div class="ibox">
@@ -57,7 +30,6 @@
                         <table class="table table-hover dataTables-example">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Student</th>
                                     <th>Appointment Time</th>
                                     <th>Reason</th>
@@ -68,16 +40,11 @@
                             <tbody>
                                 @foreach($appointments as $appointment)
                                 <tr>
-                                    <td>{{ $appointment->id }}</td>
                                     <td>{{ $appointment->student->name ?? 'N/A' }}</td>
-                                    <td>{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('M d, Y h:i
-                                            A') }}</td>
+                                    <td>{{ $appointment->appointment_time->format('M d, Y h:i A') }}</td>
                                     <td>{{ $appointment->reason }}</td>
                                     <td>
-                                        <span class="badge 
-                                                @if($appointment->status == 'accepted') badge-primary 
-                                                @elseif($appointment->status == 'rejected') badge-danger 
-                                                @else badge-warning @endif" style="cursor:pointer;" data-toggle="modal" data-target="#appointmentModal" data-id="{{ $appointment->id }}" data-student="{{ $appointment->student->name ?? 'N/A' }}" data-time="{{ \Carbon\Carbon::parse($appointment->appointment_time)->format('M d, Y h:i A') }}" data-reason="{{ $appointment->reason }}" data-status="{{ $appointment->status }}" data-notes="{{ $appointment->notes ?? '' }}">
+                                        <span class="badge {{ $appointment->statusBadgeClass() }}" style="cursor:pointer;" data-toggle="modal" data-target="#appointmentModal" data-id="{{ $appointment->id }}" data-student="{{ $appointment->student->name ?? 'N/A' }}" data-time="{{ $appointment->appointment_time->format('M d, Y h:i A') }}" data-reason="{{ $appointment->reason }}" data-status="{{ $appointment->status }}" data-notes="{{ $appointment->notes ?? '' }}">
                                             {{ ucfirst($appointment->status) }}
                                         </span>
                                     </td>
@@ -91,7 +58,6 @@
                             </tbody>
                             <tfoot>
                                 <tr>
-                                    <th>ID</th>
                                     <th>Student</th>
                                     <th>Appointment Time</th>
                                     <th>Reason</th>
@@ -105,13 +71,11 @@
             </div>
         </div>
     </div>
-
 </section>
-
 
 <!-- Appointment Modal -->
 <div class="modal fade" id="appointmentModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
 
             <div class="modal-header">
@@ -129,13 +93,13 @@
                     <p><strong>Reason:</strong> <span id="modal-reason"></span></p>
 
                     <div class="form-group">
-                        <label for="modal-notes">Notes</label>
+                        <label for="modal-notes"><strong>Notes:</strong></label>
                         <textarea class="form-control" name="notes" id="modal-notes" rows="3"></textarea>
                     </div>
 
                     <div class="form-group">
-                        <label>Status</label><br>
-                        <button type="button" class="btn btn-primary" data-status="accepted">Accept</button>
+                        <label><strong>Status:</strong></label><br>
+                        <button type="button" class="btn btn-primary" data-status="approved">Accept</button>
                         <button type="button" class="btn btn-danger" data-status="rejected">Reject</button>
                     </div>
                 </div>
@@ -143,48 +107,44 @@
         </div>
     </div>
 </div>
-
 @endsection
 
-@section('scripts')
+
+@push('style')
+<style>
+    #appointmentHead {
+        overflow: hidden;
+        border-radius: 12px !important;
+    }
+
+    .ibox {
+        border-radius: 12px !important;
+        overflow: hidden;
+    }
+
+    th,
+    td {
+        color: #676a6c;
+    }
+
+</style>
+@endpush
+
+@push('scripts')
 <script>
     $.fn.dataTable.Buttons.defaults.dom.button.className = 'btn btn-white btn-sm';
 
     $(document).ready(function() {
-        // Initialize DataTable only once
+        // DataTable
         var table = $('.dataTables-example').DataTable({
-            order: [],
-            pageLength: 10, 
-            responsive: true, 
-            dom: '<"html5buttons"B>lTfgitp', 
-            buttons: [{
-                    extend: 'copy'
-                }
-                , {
-                    extend: 'csv'
-                }
-                , {
-                    extend: 'excel'
-                    , title: 'ExampleFile'
-                }
-                , {
-                    extend: 'pdf'
-                    , title: 'ExampleFile'
-                }
-                , {
-                    extend: 'print'
-                    , customize: function(win) {
-                        $(win.document.body).addClass('white-bg');
-                        $(win.document.body).css('font-size', '10px');
-                        $(win.document.body).find('table')
-                            .addClass('compact')
-                            .css('font-size', 'inherit');
-                    }
-                }
-            ]
+            order: []
+            , pageLength: 10
+            , responsive: true
+            , dom: '<"html5buttons"B>lTfgitp'
+            , buttons: ['copy', 'csv', 'excel', 'pdf', 'print']
         });
 
-        // Fill modal with appointment data
+        // Fill modal
         $('#appointmentModal').on('show.bs.modal', function(event) {
             var button = $(event.relatedTarget);
             $('#modal-appointment-id').val(button.data('id'));
@@ -194,7 +154,7 @@
             $('#modal-notes').val(button.data('notes'));
         });
 
-        // Handle note click -> expand child row
+        // Expand notes
         $('.dataTables-example tbody').on('click', '.note-preview', function() {
             var tr = $(this).closest('tr');
             var row = table.row(tr);
@@ -208,11 +168,8 @@
                 tr.addClass('shown');
             }
         });
-    });
 
-
-    // ajax
-    $(document).ready(function() {
+        // Ajax update
         $('#appointmentForm button').click(function() {
             var status = $(this).data('status');
             var id = $('#modal-appointment-id').val();
@@ -229,31 +186,45 @@
                     , notes: notes
                 }
                 , success: function(response) {
-
                     var row = $('span[data-id="' + id + '"]').closest('tr');
 
                     row.find('td:nth-child(5) span')
                         .text(status.charAt(0).toUpperCase() + status.slice(1))
                         .removeClass('badge-primary badge-danger badge-warning')
                         .addClass(
-                            status == 'accepted' ? 'badge-primary' :
+                            status == 'approved' ? 'badge-primary' :
                             status == 'rejected' ? 'badge-danger' :
                             'badge-warning'
                         );
 
-                    row.find('td:nth-child(6) span').text(notes.length > 20 ? notes.substring(0, 20) + '...' : notes);
+                    row.find('td:nth-child(6) span')
+                        .text(notes.length > 20 ? notes.substring(0, 20) + '...' : notes)
+                        .data('full', notes);
 
                     $('#appointmentModal').modal('hide');
 
-                    toastr.success('Appointment updated successfully!');
+                    // SweetAlert modal
+                    Swal.fire({
+                        icon: 'success'
+                        , title: 'Appointment Updated!'
+                        , text: 'The appointment has been updated successfully.'
+                        , confirmButtonText: 'OK'
+                    });
                 }
                 , error: function(xhr) {
-                    toastr.error('Something went wrong.');
+                    // SweetAlert modal for errors
+                    Swal.fire({
+                        icon: 'error'
+                        , title: 'Error!'
+                        , text: 'Something went wrong while updating the appointment.'
+                        , confirmButtonText: 'OK'
+                    });
                     console.log(xhr.responseText);
                 }
             });
         });
+
     });
 
 </script>
-@endsection
+@endpush
